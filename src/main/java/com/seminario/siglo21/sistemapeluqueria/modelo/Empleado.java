@@ -4,16 +4,16 @@ public class Empleado extends Persona{
     
     // Atributos Exclusivos de la clase Empleado
     private int idEmpleado;
-    private int idEspecialidad;
+    private String especialidad;
 
     // Métodos Constructores
     public Empleado() {
     }
 
-    public Empleado(int idEmpleado, int idEspecialidad, String nombre, String apellido, int dni, int idDireccion, int idTelefono, int idEmail, boolean activo) {
-        super(nombre, apellido, dni, idDireccion, idTelefono, idEmail, activo);
+    public Empleado(int idEmpleado, String especialidad, String nombre, String apellido, int dni, String direccion, int telefono, String email, boolean activo) {
+        super(nombre, apellido, dni, direccion, telefono, email, activo);
         this.idEmpleado = idEmpleado;
-        this.idEspecialidad = idEspecialidad;
+        this.especialidad = especialidad;
     }
 
     // Métodos Getters y Setters
@@ -25,12 +25,13 @@ public class Empleado extends Persona{
         this.idEmpleado = idEmpleado;
     }
 
-    public int getIdEspecialidad() {
-        return idEspecialidad;
+    public String getEspecialidad() {
+        return especialidad;
     }
 
-    public void setIdEspecialidad(int idEspecialidad) {
-        this.idEspecialidad = idEspecialidad;
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
     }
+
     
 }

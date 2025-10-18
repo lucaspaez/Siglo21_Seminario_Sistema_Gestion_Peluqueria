@@ -1,20 +1,23 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
+import com.seminario.siglo21.sistemapeluqueria.modelo.Cliente;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class GestionarClientesController implements Initializable {
 
     @FXML
-    private TableView<?> tablaClientes;
-    @FXML
-    private TableColumn<?, ?> colId;
+    private TableView<Cliente> tablaClientes;
     @FXML
     private TableColumn<?, ?> colNombre;
     @FXML
@@ -35,13 +38,39 @@ public class GestionarClientesController implements Initializable {
     private Button btnEliminar;
     @FXML
     private Button btnRefrescar;
+    @FXML
+    private TableColumn<?, ?> colApellido;
+    @FXML
+    private TableColumn<?, ?> colTelefono;
+    @FXML
+    private TableColumn<?, ?> colEmail;
+    
+    private ObservableList<Cliente> listaClientes;
+    
+    @FXML
+    private TableColumn<?, ?> colId;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        listaClientes = FXCollections.observableArrayList();
+        
+        colId.setCellValueFactory(new PropertyValueFactory("idCliente"));
+        colNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
+        colApellido.setCellValueFactory(new PropertyValueFactory("apellido"));
+        colDni.setCellValueFactory(new PropertyValueFactory("dni"));
+        colTelefono.setCellValueFactory(new PropertyValueFactory("telefono"));
+        colEmail.setCellValueFactory(new PropertyValueFactory("email"));
+        colDireccion.setCellValueFactory(new PropertyValueFactory("direccion"));
+        
+        cargarClientes();
+        
     }    
+
+    private void cargarClientes() {
+        List<Cliente> datos = Cliente.listarClientes();
+        listaClientes.setAll(datos);
+        tablaClientes.setItems(listaClientes);
+    }
     
 }

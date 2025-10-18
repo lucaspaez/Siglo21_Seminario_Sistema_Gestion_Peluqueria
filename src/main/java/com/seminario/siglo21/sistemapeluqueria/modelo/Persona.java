@@ -6,22 +6,22 @@ public class Persona {
     private String nombre;
     private String apellido;
     private int dni;
-    private int idDireccion;
-    private int idTelefono;
-    private int idEmail;
+    private String direccion;
+    private int telefono;
+    private String email;
     private boolean activo;
     
     // Métodos Constructores
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, int dni, int idDireccion, int idTelefono, int idEmail, boolean activo) {
+    public Persona(String nombre, String apellido, int dni, String direccion, int telefono, String email, boolean activo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.idDireccion = idDireccion;
-        this.idTelefono = idTelefono;
-        this.idEmail = idEmail;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
         this.activo = activo;
     }
 
@@ -50,28 +50,28 @@ public class Persona {
         this.dni = dni;
     }
 
-    public int getIdDireccion() {
-        return idDireccion;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setIdDireccion(int idDireccion) {
-        this.idDireccion = idDireccion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public int getIdTelefono() {
-        return idTelefono;
+    public int getTelefono() {
+        return telefono;
     }
 
-    public void setIdTelefono(int idTelefono) {
-        this.idTelefono = idTelefono;
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
     }
 
-    public int getIdEmail() {
-        return idEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdEmail(int idEmail) {
-        this.idEmail = idEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isActivo() {
