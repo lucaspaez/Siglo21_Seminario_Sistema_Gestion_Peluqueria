@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="360.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.MenuPrincipalController">
-   <children>
-      <VBox alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="380.0" spacing="18.0">
-         <children>
-            <Label text="Sistema Gestion de Peluquería" />
-            <Button fx:id="btnGestionClientes" mnemonicParsing="false" text="Gestión de Clientes" />
-            <Button mnemonicParsing="false" text="Gestión de Turnos" />
-            <Button mnemonicParsing="false" text="Gestión de Ventas" />
-            <Button mnemonicParsing="false" text="Gestión de Colaboradores" />
-         </children>
-      </VBox>
-   </children>
-</AnchorPane>
+<BorderPane prefHeight="500" prefWidth="800" styleClass="root-pane" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.MenuPrincipalController">
+    <top>
+    <HBox alignment="CENTER_LEFT" spacing="12" styleClass="top-bar">
+        <children>
+            <Label styleClass="titulo-app" text="Sistema Peluquería - Menú Principal" />
+        </children>
+         <padding>
+            <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+         </padding>
+    </HBox>
+</top>
+
+    <center>
+        <GridPane alignment="CENTER" hgap="20" vgap="20">
+            <Button fx:id="btnClientes" onAction="#gestionarCliente" styleClass="btn-primary" text="Gestión de Clientes" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Button fx:id="btnTurnos" styleClass="btn-secondary" text="Gestión de Turnos" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Button fx:id="btnProductos" styleClass="btn-secondary" text="Gestión de Productos" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Button fx:id="btnProveedores" styleClass="btn-secondary" text="Gestión de Proveedores" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="btnVentas" styleClass="btn-secondary" text="Gestión de Ventas" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Button fx:id="btnReportes" styleClass="btn-secondary" text="Reportes" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <Label styleClass="pie" text="© 2025 Seminario de Práctica Informática - Siglo 21" />
+    </bottom>
+</BorderPane>

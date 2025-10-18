@@ -2,6 +2,7 @@ package com.seminario.siglo21.sistemapeluqueria;
 
 import com.seminario.siglo21.sistemapeluqueria.controlador.CambiarVista;
 import com.seminario.siglo21.sistemapeluqueria.controlador.LoginController;
+import com.seminario.siglo21.sistemapeluqueria.controlador.MenuPrincipalController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +32,11 @@ private static Stage stage;
         if (controller instanceof LoginController) {
             ((LoginController) controller).setCambiarVista(this);
         }
+        
+        // Se le pasa la interfaz al controlador de MenuPrincipal
+        if (controller instanceof MenuPrincipalController) {
+            ((MenuPrincipalController) controller).setCambiarVista(this);
+        }
 
         // LÓGICA CORREGIDA AQUÍ
         if (stage.getScene() == null) {
@@ -40,28 +46,12 @@ private static Stage stage;
         } else {
             // Si ya existe una escena, simplemente cambiamos su root
             stage.getScene().setRoot(newRoot);
+            // setea el tamaño de la ventana automaticamente en lo que se define
+            // por la vista
+            stage.sizeToScene();
         }
     }
-    
-    /*
-    private static Scene scene;
 
-    @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Login"));
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-*/
     public static void main(String[] args) {
         launch();
     }
