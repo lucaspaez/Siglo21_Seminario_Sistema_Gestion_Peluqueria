@@ -1,0 +1,80 @@
+.root-pane {
+    -fx-background-color: #F4F7FA; /* fondo suave */
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+/* Paleta principal */
+.titulo-login {
+    -fx-font-size: 26px;
+    -fx-text-fill: #673AB7; /* primary #673AB7 */
+    -fx-font-weight: 700;
+}
+
+.subtitulo-login {
+    -fx-font-size: 14px;
+    -fx-text-fill: #212121;
+    -fx-opacity: 0.8;
+}
+
+.md-textfield {
+    -fx-background-color: white;
+    -fx-border-color: #D6D1F0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+    -fx-font-size: 13px;
+}
+
+.btn-primary {
+    -fx-background-color: #673AB7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10 18 10 18;
+}
+.btn-primary:hover { -fx-background-color: #512DA8; }
+
+.btn-secondary {
+    -fx-background-color: #D1C4E9;
+    -fx-text-fill: #212121;
+    -fx-background-radius: 8px;
+    -fx-padding: 8 14 8 14;
+}
+.btn-secondary:hover { -fx-background-color: #C4B5E6; }
+
+.btn-ghost {
+    -fx-background-color: transparent;
+    -fx-border-color: #D6D1F0;
+    -fx-border-radius: 8px;
+    -fx-padding: 8 14 8 14;
+}
+
+/* Table */
+.md-table {
+    -fx-background-color: white;
+    -fx-border-color: #D6D1F0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 8, 0, 0, 4);
+}
+
+/* Top bar */
+.top-bar {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, #512DA8, #673AB7);
+    -fx-padding: 12;
+}
+
+.titulo-app {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+}
+
+.pie {
+    -fx-text-fill: #757575;
+    -fx-padding: 8;
+}
+
+.mensaje {
+    -fx-text-fill: #D32F2F;
+}

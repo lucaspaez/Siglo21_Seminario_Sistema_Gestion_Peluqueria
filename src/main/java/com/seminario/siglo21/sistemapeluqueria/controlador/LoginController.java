@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginController implements Initializable {
@@ -20,7 +21,7 @@ public class LoginController implements Initializable {
     @FXML
     private TextField txtUsuario;
     @FXML
-    private TextField txtContrasenia;
+    private PasswordField txtContrasenia;
 
     private CambiarVista cambiarVista;
 
@@ -46,7 +47,7 @@ public class LoginController implements Initializable {
 
             boolean ok = Cuenta.validarCredenciales(usuario, pass);
             if (ok) {
-                cambiarVista.setRoot("secondary");
+                cambiarVista.setRoot("MenuPrincipal");
             } else {
                 lblMensaje.setText("Credenciales inválidas.");
             }
