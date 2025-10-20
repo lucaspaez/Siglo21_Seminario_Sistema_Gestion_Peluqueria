@@ -81,29 +81,25 @@ public class GestionarClientesController implements Initializable {
 
     @FXML
     private void agregarCliente(ActionEvent event) throws IOException {
-        //cambiarVista.setRoot("DialogoCliente");
 
-            // 1. Cargar el archivo FXML
-            FXMLLoader loaderCli = new FXMLLoader(getClass().getResource("DialogoCliente.fxml"));
-            Parent rootCli = loaderCli.load();
+        // Cago el archivo FXML
+        FXMLLoader loaderCli = new FXMLLoader(
+                getClass().getClassLoader().getResource("com/seminario/siglo21/sistemapeluqueria/DialogoCliente.fxml")
+        );
 
-            // 2. Crear una nueva ventana (Stage)
-            Stage nuevaStage = new Stage();
-            nuevaStage.setTitle("Gestión de clientes");
-            
-            Scene sceneCli = new Scene(rootCli);
-            
-            nuevaStage.setScene(sceneCli);
-            nuevaStage.initModality(Modality.APPLICATION_MODAL);
-            
-            nuevaStage.show();
+        Parent rootCli = loaderCli.load();
 
+        // Creo una nueva ventana (Stage) y le asigno la vista
+        Stage nuevaStage = new Stage();
+        nuevaStage.setTitle("Gestión de clientes");
 
-    }
+        Scene sceneCli = new Scene(rootCli);
 
-    // Método que cambia la vista actual
-    public void setCambiarVista(CambiarVista cambiarVista) {
-        this.cambiarVista = cambiarVista;
+        nuevaStage.setScene(sceneCli);
+        nuevaStage.initModality(Modality.APPLICATION_MODAL);
+
+        nuevaStage.show();
+
     }
 
 }

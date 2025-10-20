@@ -39,11 +39,6 @@ private static Stage stage;
         if (controller instanceof MenuPrincipalController) {
             ((MenuPrincipalController) controller).setCambiarVista(this);
         }
-        
-        // Se le pasa la interfaz al controlador de GestionarClientes
-        if (controller instanceof GestionarClientesController) {
-            ((GestionarClientesController) controller).setCambiarVista(this);
-        }
 
         // Carga las escenas
         if (stage.getScene() == null) {
