@@ -1,6 +1,7 @@
 package com.seminario.siglo21.sistemapeluqueria;
 
 import com.seminario.siglo21.sistemapeluqueria.controlador.CambiarVista;
+import com.seminario.siglo21.sistemapeluqueria.controlador.GestionarClientesController;
 import com.seminario.siglo21.sistemapeluqueria.controlador.LoginController;
 import com.seminario.siglo21.sistemapeluqueria.controlador.MenuPrincipalController;
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.stage.Modality;
 
 public class App extends Application implements CambiarVista{
 
@@ -27,24 +29,31 @@ private static Stage stage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         Parent newRoot = fxmlLoader.load();
 
-        // Si el controlador necesita la interfaz, se la pasas aquí
+        // Se le pasa la interfaz al controlador del Login
         Object controller = fxmlLoader.getController();
         if (controller instanceof LoginController) {
             ((LoginController) controller).setCambiarVista(this);
         }
         
-        // Se le pasa la interfaz al controlador de MenuPrincipal
+        // Se le pasa la interfaz al controlador del MenuPrincipal
         if (controller instanceof MenuPrincipalController) {
             ((MenuPrincipalController) controller).setCambiarVista(this);
         }
+        
+        // Se le pasa la interfaz al controlador de GestionarClientes
+        if (controller instanceof GestionarClientesController) {
+            ((GestionarClientesController) controller).setCambiarVista(this);
+        }
 
-        // LÓGICA CORREGIDA AQUÍ
+        // Carga las escenas
         if (stage.getScene() == null) {
+        
             // Si no hay escena, la creamos y se la asignamos
             Scene scene = new Scene(newRoot);
+            
             stage.setScene(scene);
         } else {
-            // Si ya existe una escena, simplemente cambiamos su root
+             // Si ya existe una escena, simplemente cambiamos su root
             stage.getScene().setRoot(newRoot);
             // setea el tamaño de la ventana automaticamente en lo que se define
             // por la vista
