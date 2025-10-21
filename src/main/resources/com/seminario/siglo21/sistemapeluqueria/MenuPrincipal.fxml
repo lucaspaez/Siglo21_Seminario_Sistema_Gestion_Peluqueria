@@ -40,8 +40,12 @@
          </rowConstraints>
         </GridPane>
     </center>
-
-    <bottom>
-        <Label styleClass="pie" text="© 2025 Seminario de Práctica Informática - Siglo 21" />
-    </bottom>
+   <bottom>
+      <HBox alignment="CENTER" spacing="100.0" BorderPane.alignment="CENTER">
+         <children>
+              <Label styleClass="pie" text="© 2025 Seminario de Práctica Informática - Siglo 21" />
+            <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" styleClass="btn-ghost" text="Cerrar Sesión" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

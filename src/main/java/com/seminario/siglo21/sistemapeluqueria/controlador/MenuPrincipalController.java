@@ -1,12 +1,16 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
+import com.seminario.siglo21.sistemapeluqueria.App;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class MenuPrincipalController implements Initializable {
 
@@ -22,21 +26,30 @@ public class MenuPrincipalController implements Initializable {
     private Button btnVentas;
     @FXML
     private Button btnReportes;
-    
-    private CambiarVista cambiarVista;
+    @FXML
+    private Button btnCerrarSesion;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void gestionarCliente(ActionEvent event) throws IOException {
-        cambiarVista.setRoot("GestionarClientes");
+        // Obtengo el stage actual
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        //Cambio la vista
+        VistaUtil.cambiarVista(App.getPrimaryStage(), "/com/seminario/siglo21/sistemapeluqueria/GestionarClientes.fxml",
+                "Sistema de Gestión - Gestionar Clientes");
     }
-    
-    // Método que cambia la vista actual
-    public void setCambiarVista(CambiarVista cambiarVista) {
-        this.cambiarVista = cambiarVista;
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) throws IOException {
+        
+        // Sale al login
+        VistaUtil.cambiarVista(App.getPrimaryStage(),
+                "/com/seminario/siglo21/sistemapeluqueria/Login.fxml",
+                "Login");
     }
 }

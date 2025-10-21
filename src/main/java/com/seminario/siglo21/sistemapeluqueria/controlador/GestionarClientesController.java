@@ -1,6 +1,7 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
 import com.seminario.siglo21.sistemapeluqueria.modelo.Cliente;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -54,8 +55,6 @@ public class GestionarClientesController implements Initializable {
     @FXML
     private TextField txtFiltroNombre;
 
-    private CambiarVista cambiarVista;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -82,24 +81,10 @@ public class GestionarClientesController implements Initializable {
     @FXML
     private void agregarCliente(ActionEvent event) throws IOException {
 
-        // Cago el archivo FXML
-        FXMLLoader loaderCli = new FXMLLoader(
-                getClass().getClassLoader().getResource("com/seminario/siglo21/sistemapeluqueria/DialogoCliente.fxml")
+        VistaUtil.mostrarVentanaModal(
+                "/com/seminario/siglo21/sistemapeluqueria/DialogoCliente.fxml",
+                "Gestión de clientes"
         );
-
-        Parent rootCli = loaderCli.load();
-
-        // Creo una nueva ventana (Stage) y le asigno la vista
-        Stage nuevaStage = new Stage();
-        nuevaStage.setTitle("Gestión de clientes");
-
-        Scene sceneCli = new Scene(rootCli);
-
-        nuevaStage.setScene(sceneCli);
-        nuevaStage.initModality(Modality.APPLICATION_MODAL);
-
-        nuevaStage.show();
-
     }
 
 }
