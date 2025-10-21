@@ -7,6 +7,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.control.Alert;
 
 public class VistaUtil {
 
@@ -47,6 +48,27 @@ public class VistaUtil {
         stage.showAndWait();
 
         return loader.getController();
+    }
+
+    public static void mostrarAlerta(String tipo, String mensaje) {
+
+        switch (tipo) {
+            case "info":
+                Alert i = new Alert(Alert.AlertType.INFORMATION);
+                i.setHeaderText(null);
+                i.setTitle("Info");
+                i.setContentText(mensaje);
+                i.showAndWait();
+                break;
+            case "error":
+                Alert e = new Alert(Alert.AlertType.ERROR);
+                e.setHeaderText(null);
+                e.setTitle("Error");
+                e.setContentText(mensaje);
+                e.showAndWait();
+                break;
+        }
+
     }
 
 }

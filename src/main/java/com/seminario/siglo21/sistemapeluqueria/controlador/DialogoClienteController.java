@@ -138,6 +138,9 @@ public class DialogoClienteController implements Initializable {
         ClienteEmail clienteEmail = new ClienteEmail(c.getIdCliente(), e.getIdEmail());
         clienteEmail.conectaClienteEmail();
         
+        VistaUtil.mostrarAlerta("info"
+                , "El nuevo cliente se guardo correctamente, refresque la tabla para visualizarlo.");
+        
         // Sale de la ventana modal
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
