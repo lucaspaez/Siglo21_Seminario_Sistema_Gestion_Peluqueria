@@ -42,7 +42,7 @@
                 <Button fx:id="btnAgregar" onAction="#agregarCliente" styleClass="btn-primary" text="Agregar" />
                 <Button fx:id="btnEditar" styleClass="btn-secondary" text="Editar" />
                 <Button fx:id="btnEliminar" styleClass="btn-secondary" text="Eliminar" />
-                <Button fx:id="btnRefrescar" styleClass="btn-ghost" text="Refrescar" />
+                <Button fx:id="btnRefrescar" onAction="#refrescarTabla" styleClass="btn-ghost" text="Refrescar" />
             </HBox>
          <padding>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />

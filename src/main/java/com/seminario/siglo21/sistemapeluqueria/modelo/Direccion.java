@@ -128,17 +128,18 @@ public class Direccion {
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (rs.next()) {
 
-                        this.idDireccion = rs.getInt("idCliente");
-
+                        setIdDireccion(rs.getInt(1));
+                        System.out.println("El idDireccion es: " + getIdDireccion());
                     }
                 }
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setHeaderText(null);
             a.setTitle("Error");
-            a.setContentText(e.getMessage());
+            a.setContentText("Error al guardar dirección: " + e.getMessage());
             a.showAndWait();
         }
 

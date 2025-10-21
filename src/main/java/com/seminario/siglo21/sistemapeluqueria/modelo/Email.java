@@ -39,7 +39,7 @@ public class Email {
 
     public void GuardarEmailNuevo() {
         
-        String consultaSql = "INSERT INTO Email (email) VALUES ( ?);";
+        String consultaSql = "INSERT INTO Email (email) VALUES (?);";
         
         try {
             // Inicializo variables de conexion
@@ -59,17 +59,18 @@ public class Email {
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (rs.next()) {
 
-                        this.idEmail = rs.getInt("idEmail");
+                        setIdEmail(rs.getInt(1));
 
                     }
                 }
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setHeaderText(null);
             a.setTitle("Error");
-            a.setContentText(e.getMessage());
+            a.setContentText("Error al guardar email: " + e.getMessage());
             a.showAndWait();
         }
     }

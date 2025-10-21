@@ -78,11 +78,24 @@ public class DialogoClienteController implements Initializable {
         if (validarDireccion()) {
             d.setCalle(this.txtCalleCliente.getText());
             d.setNumero(Integer.parseInt(this.txtNumeroCliente.getText()));
-            d.setPiso(Integer.parseInt(this.txtPisoCliente.getText()));
+
+            // Piso opcional
+            if (!this.txtPisoCliente.getText().isEmpty()) {
+                d.setPiso(Integer.parseInt(this.txtPisoCliente.getText()));
+            } else {
+                d.setPiso(0);
+            }
+
             d.setCiudad(this.txtCiudadCliente.getText());
             d.setProvincia(this.txtProvinciaCliente.getText());
             d.setPais(this.txtPaisCliente.getText());
-            d.setCodigoPostal(Integer.parseInt(txtCpCliente.getText()));
+
+            // Código postal opcional
+            if (!this.txtCpCliente.getText().isEmpty()) {
+                d.setCodigoPostal(Integer.parseInt(this.txtCpCliente.getText()));
+            } else {
+                d.setCodigoPostal(0);
+            }
         } else {
             return;
         }
@@ -103,12 +116,14 @@ public class DialogoClienteController implements Initializable {
         } else {
             return;
         }
-        /*
+
         // Guardo la direccion del cliente
         d.GuardarDirecionNueva();
-
+        System.out.println("ID de direccion: " + d.getIdDireccion());
+        
         // Guardo el cliente
         c.GuardarNuevoCliente(d.getIdDireccion());
+        System.out.println("ID de cliente es: " + c.getIdCliente());
 
         // Guardo el telefono nuevo
         t.GuardarTelefonoNuevo();
@@ -121,7 +136,11 @@ public class DialogoClienteController implements Initializable {
         clienteTelefono.conectarClienteTelefono();
 
         ClienteEmail clienteEmail = new ClienteEmail(c.getIdCliente(), e.getIdEmail());
-        clienteEmail.conectaClienteEmail();*/
+        clienteEmail.conectaClienteEmail();
+        
+        // Sale de la ventana modal
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 
     @FXML

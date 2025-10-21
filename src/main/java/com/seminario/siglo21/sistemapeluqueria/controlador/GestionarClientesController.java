@@ -10,18 +10,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class GestionarClientesController implements Initializable {
 
@@ -85,6 +79,11 @@ public class GestionarClientesController implements Initializable {
                 "/com/seminario/siglo21/sistemapeluqueria/DialogoCliente.fxml",
                 "Gestión de clientes"
         );
+    }
+
+    @FXML
+    private void refrescarTabla(ActionEvent event) {
+        cargarClientes();
     }
 
 }

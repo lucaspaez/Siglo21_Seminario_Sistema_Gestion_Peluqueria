@@ -39,8 +39,8 @@ public class Telefono {
         this.telefono = telefono;
     }
 
-    public void GuardarTelefonoNuevo() {
-        String consultaSql = "INSERT INTO Telefono (telefono) VALUES ( ?);";
+    public void GuardarTelefonoNuevo(){
+        String consultaSql = "INSERT INTO Telefono (telefono) VALUES (?);";
 
         try {
             // Inicializo variables de conexion
@@ -50,6 +50,8 @@ public class Telefono {
             PreparedStatement statement = conexion.prepareStatement(consultaSql,
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
+            System.out.println(consultaSql);
+            
             // Asigno los valores del objeto Telefono
             statement.setInt(1, this.getTelefono());
 
@@ -60,17 +62,18 @@ public class Telefono {
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (rs.next()) {
 
-                        this.idTelefono = rs.getInt("idTelefono");
+                        setIdTelefono(rs.getInt(1));
 
                     }
                 }
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setHeaderText(null);
             a.setTitle("Error");
-            a.setContentText(e.getMessage());
+            a.setContentText("Error al guardar teléfono: " + e.getMessage());
             a.showAndWait();
         }
     }

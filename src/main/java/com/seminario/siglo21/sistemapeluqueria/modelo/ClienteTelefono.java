@@ -39,7 +39,7 @@ public class ClienteTelefono {
     public void conectarClienteTelefono() {
 
         String consultaSql = "INSERT INTO ClienteTelefono "
-                + "VALUES ( " + this.idCliente + " , " + this.idTelefono + " )";
+                + "VALUES ( ?, ?);";
 
         try {
             // Inicializo variables de conexion
@@ -49,13 +49,14 @@ public class ClienteTelefono {
             PreparedStatement statement = conexion.prepareStatement(consultaSql);
 
             // Asigno los valores del objeto Email
-            statement.setInt(1, this.idCliente);
-            statement.setInt(2, this.idTelefono);
+            statement.setInt(1, this.getIdCliente());
+            statement.setInt(2, this.getIdTelefono());
 
             // Ejecuto la consulta
             statement.executeUpdate();
 
         } catch (SQLException e) {
+            e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setHeaderText(null);
             a.setTitle("Error");

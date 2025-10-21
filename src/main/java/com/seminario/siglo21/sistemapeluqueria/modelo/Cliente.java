@@ -79,7 +79,7 @@ public class Cliente extends Persona {
     public void GuardarNuevoCliente(int idDireccion) {
 
         String consultaSql = "INSERT INTO Cliente (nombre, apellido, dni, idDireccion) VALUES\n"
-                + "(?, ?, ?, ?, ?);";
+                + "(?, ?, ?, ?);";
 
         try {
             // Inicializo variables de conexion
@@ -102,17 +102,19 @@ public class Cliente extends Persona {
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (rs.next()) {
 
-                        this.idCliente = rs.getInt("idCliente");
+                        setIdCliente(rs.getInt(1));
+                        System.out.println("ID de cliente es: " + getIdCliente());
 
                     }
                 }
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setHeaderText(null);
             a.setTitle("Error");
-            a.setContentText(e.getMessage());
+            a.setContentText("Error al guardar cliente: " + e.getMessage());
             a.showAndWait();
         }
     }
