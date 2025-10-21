@@ -45,7 +45,7 @@ public class LoginController implements Initializable {
             if (ok) {
 
                 // Obtengo el stage actual
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
                 //Cambio la vista
                 VistaUtil.cambiarVista(App.getPrimaryStage(), "/com/seminario/siglo21/sistemapeluqueria/MenuPrincipal.fxml",

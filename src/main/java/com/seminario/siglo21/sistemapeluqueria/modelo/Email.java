@@ -1,5 +1,12 @@
 package com.seminario.siglo21.sistemapeluqueria.modelo;
 
+import com.seminario.siglo21.sistemapeluqueria.persistencia.ConexionBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javafx.scene.control.Alert;
+
 public class Email {
     
     // Atributos
@@ -28,6 +35,43 @@ public class Email {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void GuardarEmailNuevo() {
+        
+        String consultaSql = "INSERT INTO Email (email) VALUES ( ?);";
+        
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparamos con la consulta e indicamos que queremos el id generado
+            PreparedStatement statement = conexion.prepareStatement(consultaSql,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
+            // Asigno los valores del objeto Email
+            statement.setString(1, this.getEmail());
+
+            int filas = statement.executeUpdate();
+
+            if (filas > 0) {
+                // Obtengo el ID Generado por la Base de Datos
+                try (ResultSet rs = statement.getGeneratedKeys()) {
+                    if (rs.next()) {
+
+                        this.idEmail = rs.getInt("idEmail");
+
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText(null);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.showAndWait();
+        }
     }
     
     

@@ -76,4 +76,45 @@ public class Cliente extends Persona {
         return lista;
     }
 
+    public void GuardarNuevoCliente(int idDireccion) {
+
+        String consultaSql = "INSERT INTO Cliente (nombre, apellido, dni, idDireccion) VALUES\n"
+                + "(?, ?, ?, ?, ?);";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparamos con la consulta e indicamos que queremos el id generado
+            PreparedStatement statement = conexion.prepareStatement(consultaSql,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
+            // Asigno los valores del objeto Cliente
+            statement.setString(1, this.getNombre());
+            statement.setString(2, this.getApellido());
+            statement.setInt(3, this.getDni());
+            statement.setInt(4, idDireccion);
+
+            int filas = statement.executeUpdate();
+
+            if (filas > 0) {
+                // Obtengo el ID Generado por la Base de Datos
+                try (ResultSet rs = statement.getGeneratedKeys()) {
+                    if (rs.next()) {
+
+                        this.idCliente = rs.getInt("idCliente");
+
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText(null);
+            a.setTitle("Error");
+            a.setContentText(e.getMessage());
+            a.showAndWait();
+        }
+    }
+
 }
