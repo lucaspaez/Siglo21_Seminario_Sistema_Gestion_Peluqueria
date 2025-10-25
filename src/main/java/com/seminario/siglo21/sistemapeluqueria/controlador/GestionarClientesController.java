@@ -86,4 +86,50 @@ public class GestionarClientesController implements Initializable {
         cargarClientes();
     }
 
+    @FXML
+    private void editarCliente(ActionEvent event) throws IOException {
+
+        // Obtengo el id del cliente que quiero eliminar
+        Cliente c = this.tablaClientes.getSelectionModel().getSelectedItem();
+
+        //Verificio que efectivamente se haya seleccionado un cliente
+        if (c == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar un cliente para editar!");
+        } else {
+
+            DialogoClienteController controlador = VistaUtil.abrirVentanaYObtenerControlador(
+                    "/com/seminario/siglo21/sistemapeluqueria/DialogoCliente.fxml",
+                    "Gestión de clientes - Editar Cliente",
+                    ctrl -> {
+                        ctrl.setIdClienteEditar(c.getIdCliente());
+                        ctrl.muestraClienteEnLosCampos();
+                    }
+            );
+        }
+
+    }
+
+    @FXML
+    private void eliminarCliente(ActionEvent event) {
+
+        // Obtengo el id del cliente que quiero eliminar
+        Cliente c = this.tablaClientes.getSelectionModel().getSelectedItem();
+
+        //Verificio que efectivamente se haya seleccionado un cliente
+        if (c == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar un cliente para eliminar!");
+        } else {
+            if (c.desactivaCliente()) {
+                VistaUtil.mostrarAlerta("info",
+                        "El Cliente quedó inacivo, esto quiere decir que no se verá "
+                        + "en ninguna lista, pero si en los servicios "
+                        + "históricos que haya realizado, como turnos, "
+                        + "compras de producos, etc.");
+            }
+            cargarClientes();
+        }
+    }
+
 }

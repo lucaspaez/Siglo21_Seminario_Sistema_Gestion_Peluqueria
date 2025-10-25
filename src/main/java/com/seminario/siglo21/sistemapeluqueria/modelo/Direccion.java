@@ -1,6 +1,7 @@
 package com.seminario.siglo21.sistemapeluqueria.modelo;
 
 import com.seminario.siglo21.sistemapeluqueria.persistencia.ConexionBD;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -143,6 +144,47 @@ public class Direccion {
             a.showAndWait();
         }
 
+    }
+    
+    public void actualizarDireccion() {
+    }
+    
+    public void cargarDireccion(int id){
+    
+        String consultaSQL = "SELECT * FROM Direccion "
+                + "WHERE idDireccion = " + id;
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+
+            // Preparo la query en la conexion
+            statement = conexion.prepareStatement(consultaSQL);
+
+            // Ejecuto la Query
+            resultSet = statement.executeQuery();
+
+            // Cargo el cliente
+            if (resultSet.next()) {
+                setIdDireccion(resultSet.getInt("idDireccion"));
+                setCalle(resultSet.getString("calle"));
+                setNumero(resultSet.getInt("numero"));
+                setPiso(resultSet.getInt("piso"));
+                setCiudad(resultSet.getString("ciudad"));
+                setProvincia(resultSet.getString("provincia"));
+                setPais(resultSet.getString("pais"));
+                setCodigoPostal(resultSet.getInt("codigoPostal"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al cargar el cliente: " + e.getMessage());
+        }
+        
     }
 
 }

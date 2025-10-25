@@ -40,8 +40,8 @@
 
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Button fx:id="btnAgregar" onAction="#agregarCliente" styleClass="btn-primary" text="Agregar" />
-                <Button fx:id="btnEditar" styleClass="btn-secondary" text="Editar" />
-                <Button fx:id="btnEliminar" styleClass="btn-secondary" text="Eliminar" />
+                <Button fx:id="btnEditar" onAction="#editarCliente" styleClass="btn-secondary" text="Editar" />
+                <Button fx:id="btnEliminar" onAction="#eliminarCliente" styleClass="btn-secondary" text="Eliminar" />
                 <Button fx:id="btnRefrescar" onAction="#refrescarTabla" styleClass="btn-ghost" text="Refrescar" />
             </HBox>
          <padding>

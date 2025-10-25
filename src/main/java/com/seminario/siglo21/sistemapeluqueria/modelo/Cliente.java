@@ -2,6 +2,7 @@ package com.seminario.siglo21.sistemapeluqueria.modelo;
 
 import com.seminario.siglo21.sistemapeluqueria.persistencia.ConexionBD;
 import com.seminario.siglo21.sistemapeluqueria.util.HashUtil;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +44,8 @@ public class Cliente extends Persona {
             PreparedStatement statement = null;
             ResultSet resultSet = null;
 
-            String consultaSQL = "SELECT * FROM vista_clientes_detalle;";
+            String consultaSQL = "SELECT * FROM vista_clientes_detalle "
+                    + "WHERE activo = TRUE;";
 
             // Ejecuto la consulta
             statement = conexion.prepareStatement(consultaSQL);
@@ -111,12 +113,74 @@ public class Cliente extends Persona {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setHeaderText(null);
-            a.setTitle("Error");
-            a.setContentText("Error al guardar cliente: " + e.getMessage());
-            a.showAndWait();
+
+            VistaUtil.mostrarAlerta("error",
+                    "Error al guardar cliente: " + e.getMessage());
         }
+    }
+
+    public boolean desactivaCliente() {
+
+        String consultaSql = "UPDATE CLiente SET activo = FALSE "
+                + "WHERE idCliente = " + this.getIdCliente();
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparo la query en la conexion
+            PreparedStatement statement = conexion.prepareStatement(consultaSql);
+
+            // Ejecuto la Query
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al intentar eliminar el cliente: " + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public void actualizarCliente() {
+    }
+
+    public int cargarCliente(int id) {
+
+        String consultaSQL = "SELECT * FROM Cliente "
+                + "WHERE idCliente = " + id;
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+
+            // Preparo la query en la conexion
+            statement = conexion.prepareStatement(consultaSQL);
+
+            // Ejecuto la Query
+            resultSet = statement.executeQuery();
+
+            // Cargo el cliente
+            if (resultSet.next()) {
+                setIdCliente(resultSet.getInt("idCliente"));
+                setNombre(resultSet.getString("nombre"));
+                setApellido(resultSet.getString("apellido"));
+                setDni(resultSet.getInt("dni"));
+                return resultSet.getInt("idDireccion");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al cargar el cliente: " + e.getMessage());
+        }
+        
+        return 0;
     }
 
 }

@@ -7,6 +7,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.function.Consumer;
 import javafx.scene.control.Alert;
 
 public class VistaUtil {
@@ -37,9 +38,17 @@ public class VistaUtil {
 
     // La misma funcion que el método mostrarVentanaModal pero este obtiene
     // el controladore de la vista
-    public static <T> T abrirVentanaYObtenerControlador(String rutaFXML, String titulo, Class<T> tipoControlador) throws IOException {
+    public static <T> T abrirVentanaYObtenerControlador(String rutaFXML, String titulo, Consumer<T> inicializador) throws IOException {
         FXMLLoader loader = new FXMLLoader(VistaUtil.class.getResource(rutaFXML));
         Parent root = loader.load();
+
+        // Obtengo el controlador del FXML
+        T controller = loader.getController();
+
+        // Si se pasa un inicializador, lo aplico antes de mostrar la ventana
+        if (inicializador != null) {
+            inicializador.accept(controller);
+        }
 
         Stage stage = new Stage();
         stage.setTitle(titulo);
@@ -47,7 +56,7 @@ public class VistaUtil {
         stage.setScene(new Scene(root));
         stage.showAndWait();
 
-        return loader.getController();
+        return controller;
     }
 
     public static void mostrarAlerta(String tipo, String mensaje) {

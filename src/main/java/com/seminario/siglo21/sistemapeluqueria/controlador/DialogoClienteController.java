@@ -53,9 +53,47 @@ public class DialogoClienteController implements Initializable {
     @FXML
     private Label lblMensaje;
 
+    int idClienteEditar;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
+    }
+
+    public void muestraClienteEnLosCampos() {
+
+        Cliente c = new Cliente();
+        Email m = new Email();
+        Telefono t = new Telefono();
+        Direccion d = new Direccion();
+
+        int idDireccion = c.cargarCliente(this.getIdClienteEditar());
+
+        this.txtNombreCliente.setText(c.getNombre());
+        this.txtApellidoCliente.setText(c.getApellido());
+        this.txtDniCliente.setText(c.getDni() + "");
+        
+        d.cargarDireccion(idDireccion);
+        
+        this.txtCalleCliente.setText(d.getCalle());
+        this.txtNumeroCliente.setText(d.getNumero()+"");
+        this.txtPisoCliente.setText(d.getPiso()+"");
+        this.txtCiudadCliente.setText(d.getCiudad());
+        this.txtProvinciaCliente.setText(d.getProvincia());
+        this.txtPaisCliente.setText(d.getPais());
+        this.txtCpCliente.setText(d.getCodigoPostal()+"");
+        
+        
+
+
+    }
+
+    public int getIdClienteEditar() {
+        return idClienteEditar;
+    }
+
+    public void setIdClienteEditar(int idClienteEditar) {
+        this.idClienteEditar = idClienteEditar;
     }
 
     @FXML
@@ -120,7 +158,7 @@ public class DialogoClienteController implements Initializable {
         // Guardo la direccion del cliente
         d.GuardarDirecionNueva();
         System.out.println("ID de direccion: " + d.getIdDireccion());
-        
+
         // Guardo el cliente
         c.GuardarNuevoCliente(d.getIdDireccion());
         System.out.println("ID de cliente es: " + c.getIdCliente());
@@ -137,10 +175,10 @@ public class DialogoClienteController implements Initializable {
 
         ClienteEmail clienteEmail = new ClienteEmail(c.getIdCliente(), e.getIdEmail());
         clienteEmail.conectaClienteEmail();
-        
-        VistaUtil.mostrarAlerta("info"
-                , "El nuevo cliente se guardo correctamente, refresque la tabla para visualizarlo.");
-        
+
+        VistaUtil.mostrarAlerta("info",
+                 "El nuevo cliente se guardo correctamente, refresque la tabla para visualizarlo.");
+
         // Sale de la ventana modal
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();

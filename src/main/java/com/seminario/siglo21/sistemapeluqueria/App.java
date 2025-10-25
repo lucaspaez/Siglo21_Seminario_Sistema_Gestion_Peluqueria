@@ -12,7 +12,7 @@ private static Stage primaryStage;
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
         VistaUtil.cambiarVista(stage, "/com/seminario/siglo21/sistemapeluqueria/Login.fxml",
-                "Login");
+                "Gestion de Peluquería - Login");
     }
     
     public static Stage getPrimaryStage(){
