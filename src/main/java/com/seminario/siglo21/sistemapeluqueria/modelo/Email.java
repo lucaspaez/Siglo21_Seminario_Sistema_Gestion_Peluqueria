@@ -1,6 +1,7 @@
 package com.seminario.siglo21.sistemapeluqueria.modelo;
 
 import com.seminario.siglo21.sistemapeluqueria.persistencia.ConexionBD;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -73,6 +74,66 @@ public class Email {
             a.setContentText("Error al guardar email: " + e.getMessage());
             a.showAndWait();
         }
+    }
+
+    public void cargarEmail(int idCliente) {
+        String consultaSQL = "SELECT e.idEmail, e.email FROM ClienteEmail ce " +
+                "JOIN Email e ON ce.idEmail = e.idEmail " +
+                "WHERE ce.idCliente = "+ idCliente +";";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparamos con la consulta e indicamos que queremos el id generado
+            PreparedStatement statement = conexion.prepareStatement(consultaSQL);
+
+            // Preparo la query en la conexion
+            statement = conexion.prepareStatement(consultaSQL);
+
+            // Ejecuto la Query
+            ResultSet resultSet = statement.executeQuery();
+
+            // Cargo el cliente
+            if (resultSet.next()) {
+                this.setIdEmail(resultSet.getInt("idEmail"));
+                this.setEmail(resultSet.getString("email"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("Error",
+                    "Error al cargar email: " + e.getMessage());
+        }
+    }
+    
+    public boolean actualizarEmail(){
+    
+        String consultaSql = "UPDATE Email "
+                + "SET "
+                    + "email = '"+ this.getEmail() +"' "
+                + "WHERE idEmail = " + this.getIdEmail()+";";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparo la query en la conexion
+            PreparedStatement statement = conexion.prepareStatement(consultaSql);
+
+            // Ejecuto la Query
+            statement.executeUpdate();
+                        
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al intentar actualizar el Email: " + e.getMessage());
+            
+            return false;
+        }
+        
     }
     
     

@@ -1,6 +1,7 @@
 package com.seminario.siglo21.sistemapeluqueria.modelo;
 
 import com.seminario.siglo21.sistemapeluqueria.persistencia.ConexionBD;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +40,7 @@ public class Telefono {
         this.telefono = telefono;
     }
 
-    public void GuardarTelefonoNuevo(){
+    public void GuardarTelefonoNuevo() {
         String consultaSql = "INSERT INTO Telefono (telefono) VALUES (?);";
 
         try {
@@ -51,7 +52,7 @@ public class Telefono {
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
             System.out.println(consultaSql);
-            
+
             // Asigno los valores del objeto Telefono
             statement.setInt(1, this.getTelefono());
 
@@ -70,12 +71,73 @@ public class Telefono {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert a = new Alert(Alert.AlertType.ERROR);
-            a.setHeaderText(null);
-            a.setTitle("Error");
-            a.setContentText("Error al guardar teléfono: " + e.getMessage());
-            a.showAndWait();
+            VistaUtil.mostrarAlerta("Error",
+                    "Error al guardar teléfono: " + e.getMessage());
         }
+    }
+
+    public void cargarTelefono(int idCliente) {
+
+        String consultaSQL = "SELECT t.idTelefono, t.telefono FROM ClienteTelefono ct " +
+                "JOIN Telefono t ON ct.idTelefono = t.idTelefono " +
+                "WHERE ct.idCliente = "+ idCliente +";";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparamos con la consulta e indicamos que queremos el id generado
+            PreparedStatement statement = conexion.prepareStatement(consultaSQL);
+
+            ResultSet resultSet = null;
+
+            // Preparo la query en la conexion
+            statement = conexion.prepareStatement(consultaSQL);
+
+            // Ejecuto la Query
+            resultSet = statement.executeQuery();
+
+            // Cargo el cliente
+            if (resultSet.next()) {
+                this.setIdTelefono(resultSet.getInt("idTelefono"));
+                this.setTelefono(resultSet.getInt("telefono"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("Error",
+                    "Error al cargar teléfono: " + e.getMessage());
+        }
+
+    }
+    
+    public boolean actualizarTelefono(){
+    
+        String consultaSql = "UPDATE Telefono "
+                + "SET "
+                    + "telefono = "+ this.getTelefono() +" "
+                + "WHERE idTelefono = " + this.getIdTelefono()+";";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparo la query en la conexion
+            PreparedStatement statement = conexion.prepareStatement(consultaSql);
+
+            // Ejecuto la Query
+            statement.executeUpdate();
+                        
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al intentar actualizar el teléfono: " + e.getMessage());
+            
+            return false;
+        }
+        
     }
 
 }

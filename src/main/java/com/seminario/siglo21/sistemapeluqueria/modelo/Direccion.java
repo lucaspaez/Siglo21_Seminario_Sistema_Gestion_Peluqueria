@@ -146,7 +146,39 @@ public class Direccion {
 
     }
     
-    public void actualizarDireccion() {
+    public boolean actualizarDireccion() {
+        
+        String consultaSql = "UPDATE Direccion "
+                + "SET "
+                    + "calle = '"+ this.getCalle() +"', "
+                    + "numero = "+ this.getNumero() +", "
+                    + "piso = "+ this.getPiso() +", "
+                    + "ciudad = '"+ this.getCiudad() +"', "
+                    + "provincia = '"+ this.getProvincia() +"', "
+                    + "pais = '"+ this.getPais() +"', "
+                    + "codigoPostal = "+ this.getCodigoPostal() +" "
+                + "WHERE idDireccion = " + this.getIdDireccion()+";";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparo la query en la conexion
+            PreparedStatement statement = conexion.prepareStatement(consultaSql);
+
+            // Ejecuto la Query
+            statement.executeUpdate();
+            
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al intentar actualizar la direccion del cliente: " + e.getMessage());
+            
+            return false;
+        }
+        
     }
     
     public void cargarDireccion(int id){

@@ -1,6 +1,5 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
-import com.seminario.siglo21.sistemapeluqueria.App;
 import com.seminario.siglo21.sistemapeluqueria.modelo.Cliente;
 import com.seminario.siglo21.sistemapeluqueria.modelo.ClienteEmail;
 import com.seminario.siglo21.sistemapeluqueria.modelo.ClienteTelefono;
@@ -55,6 +54,11 @@ public class DialogoClienteController implements Initializable {
 
     int idClienteEditar;
 
+    Cliente c = new Cliente();
+    Email e = new Email();
+    Telefono t = new Telefono();
+    Direccion d = new Direccion();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -62,29 +66,37 @@ public class DialogoClienteController implements Initializable {
 
     public void muestraClienteEnLosCampos() {
 
-        Cliente c = new Cliente();
-        Email m = new Email();
-        Telefono t = new Telefono();
-        Direccion d = new Direccion();
-
+        // Cargo el cliente y obtengo el ID de la Dirección
         int idDireccion = c.cargarCliente(this.getIdClienteEditar());
 
+        // Cargo lo caplos en la vista
         this.txtNombreCliente.setText(c.getNombre());
         this.txtApellidoCliente.setText(c.getApellido());
         this.txtDniCliente.setText(c.getDni() + "");
-        
+
+        // Obtengo la dirección
         d.cargarDireccion(idDireccion);
-        
+
+        // Cargo los compos de la dirección
         this.txtCalleCliente.setText(d.getCalle());
-        this.txtNumeroCliente.setText(d.getNumero()+"");
-        this.txtPisoCliente.setText(d.getPiso()+"");
+        this.txtNumeroCliente.setText(d.getNumero() + "");
+        this.txtPisoCliente.setText(d.getPiso() + "");
         this.txtCiudadCliente.setText(d.getCiudad());
         this.txtProvinciaCliente.setText(d.getProvincia());
         this.txtPaisCliente.setText(d.getPais());
-        this.txtCpCliente.setText(d.getCodigoPostal()+"");
-        
-        
+        this.txtCpCliente.setText(d.getCodigoPostal() + "");
 
+        // Obtengo el teléfono
+        t.cargarTelefono(c.getIdCliente());
+
+        // cargo el campo del teléfono
+        this.txtTelefonoCliente.setText(t.getTelefono() + "");
+
+        // Obtengo el Email
+        e.cargarEmail(c.getIdCliente());
+
+        // Cargo el campo del Email
+        this.txtEmailCliente.setText(e.getEmail());
 
     }
 
@@ -100,7 +112,7 @@ public class DialogoClienteController implements Initializable {
     private void Guardar(ActionEvent event) {
 
         // Valido datos personales
-        Cliente c = new Cliente();
+        //Cliente c = new Cliente();
 
         if (validarDatosPersonales()) {
             c.setNombre(this.txtNombreCliente.getText());
@@ -111,7 +123,7 @@ public class DialogoClienteController implements Initializable {
         }
 
         // Valido datos de dirección
-        Direccion d = new Direccion();
+        //Direccion d = new Direccion();
 
         if (validarDireccion()) {
             d.setCalle(this.txtCalleCliente.getText());
@@ -139,7 +151,7 @@ public class DialogoClienteController implements Initializable {
         }
 
         // Valido telefono
-        Telefono t = new Telefono();
+        //Telefono t = new Telefono();
 
         if (validarTelefono()) {
             t.setTelefono(Integer.parseInt(this.txtTelefonoCliente.getText()));
@@ -148,36 +160,50 @@ public class DialogoClienteController implements Initializable {
         }
 
         // Valido Email
-        Email e = new Email();
+        //Email e = new Email();
         if (validarEmail()) {
             e.setEmail(this.txtEmailCliente.getText());
         } else {
             return;
         }
 
-        // Guardo la direccion del cliente
-        d.GuardarDirecionNueva();
-        System.out.println("ID de direccion: " + d.getIdDireccion());
+        if (c.getIdCliente() != 0) { // Debo actualizar un cliente
+            
+            if (c.actualizarCliente() && d.actualizarDireccion() && t.actualizarTelefono() && e.actualizarEmail()){
+            
+                VistaUtil.mostrarAlerta("info",
+                    "El cliente se actualizo correctamente, refresque la tabla para ver los cambios.");
+                
+            }
+            
 
-        // Guardo el cliente
-        c.GuardarNuevoCliente(d.getIdDireccion());
-        System.out.println("ID de cliente es: " + c.getIdCliente());
+        } else { // Debo ingresar un cliente nuevo
 
-        // Guardo el telefono nuevo
-        t.GuardarTelefonoNuevo();
+            // Guardo la direccion del cliente
+            d.GuardarDirecionNueva();
+            System.out.println("ID de direccion: " + d.getIdDireccion());
 
-        // Guardo email nuevo
-        e.GuardarEmailNuevo();
+            // Guardo el cliente
+            c.GuardarNuevoCliente(d.getIdDireccion());
+            System.out.println("ID de cliente es: " + c.getIdCliente());
 
-        // Conecto el telefono y el mail con el Cliente
-        ClienteTelefono clienteTelefono = new ClienteTelefono(c.getIdCliente(), t.getIdTelefono());
-        clienteTelefono.conectarClienteTelefono();
+            // Guardo el telefono nuevo
+            t.GuardarTelefonoNuevo();
 
-        ClienteEmail clienteEmail = new ClienteEmail(c.getIdCliente(), e.getIdEmail());
-        clienteEmail.conectaClienteEmail();
+            // Guardo email nuevo
+            e.GuardarEmailNuevo();
 
-        VistaUtil.mostrarAlerta("info",
-                 "El nuevo cliente se guardo correctamente, refresque la tabla para visualizarlo.");
+            // Conecto el telefono y el mail con el Cliente
+            ClienteTelefono clienteTelefono = new ClienteTelefono(c.getIdCliente(), t.getIdTelefono());
+            clienteTelefono.conectarClienteTelefono();
+
+            ClienteEmail clienteEmail = new ClienteEmail(c.getIdCliente(), e.getIdEmail());
+            clienteEmail.conectaClienteEmail();
+
+            VistaUtil.mostrarAlerta("info",
+                    "El nuevo cliente se guardo correctamente, refresque la tabla para visualizarlo.");
+
+        }
 
         // Sale de la ventana modal
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

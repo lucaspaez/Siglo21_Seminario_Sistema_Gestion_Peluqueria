@@ -121,7 +121,7 @@ public class Cliente extends Persona {
 
     public boolean desactivaCliente() {
 
-        String consultaSql = "UPDATE CLiente SET activo = FALSE "
+        String consultaSql = "UPDATE Cliente SET activo = FALSE "
                 + "WHERE idCliente = " + this.getIdCliente();
 
         try {
@@ -144,7 +144,34 @@ public class Cliente extends Persona {
         return true;
     }
 
-    public void actualizarCliente() {
+    public boolean actualizarCliente() {
+
+        String consultaSql = "UPDATE Cliente "
+                + "SET "
+                    + "nombre = '"+ this.getNombre() +"', "
+                    + "apellido = '"+ this.getApellido() +"', "
+                    + "dni = "+ this.getDni() +" "
+                + "WHERE idCliente = " + this.getIdCliente() + ";";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparo la query en la conexion
+            PreparedStatement statement = conexion.prepareStatement(consultaSql);
+
+            // Ejecuto la Query
+            statement.executeUpdate();
+            
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al intentar actualizar el cliente: " + e.getMessage());
+            
+            return false;
+        }
     }
 
     public int cargarCliente(int id) {
@@ -179,7 +206,7 @@ public class Cliente extends Persona {
             VistaUtil.mostrarAlerta("error",
                     "Error al cargar el cliente: " + e.getMessage());
         }
-        
+
         return 0;
     }
 
