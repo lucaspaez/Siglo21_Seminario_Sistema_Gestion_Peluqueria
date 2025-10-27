@@ -122,7 +122,7 @@ public class Cliente extends Persona {
     public boolean desactivaCliente() {
 
         String consultaSql = "UPDATE Cliente SET activo = FALSE "
-                + "WHERE idCliente = " + this.getIdCliente();
+                + "WHERE idCliente = " + this.getIdCliente() +";";
 
         try {
             // Inicializo variables de conexion
