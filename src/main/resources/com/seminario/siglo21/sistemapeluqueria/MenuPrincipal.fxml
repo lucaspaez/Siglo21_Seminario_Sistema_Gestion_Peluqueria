@@ -26,7 +26,7 @@
             <Button fx:id="btnClientes" onAction="#gestionarCliente" styleClass="btn-primary" text="Gestión de Clientes" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <Button fx:id="btnTurnos" styleClass="btn-secondary" text="Gestión de Turnos" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <Button fx:id="btnProductos" styleClass="btn-secondary" text="Gestión de Productos" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Button fx:id="btnProveedores" styleClass="btn-secondary" text="Gestión de Proveedores" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="btnProveedores" onAction="#gestionarProveedores" styleClass="btn-secondary" text="Gestión de Proveedores" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="btnVentas" styleClass="btn-secondary" text="Gestión de Ventas" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <Button fx:id="btnReportes" styleClass="btn-secondary" text="Reportes" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          <columnConstraints>

@@ -52,4 +52,16 @@ public class MenuPrincipalController implements Initializable {
                 "/com/seminario/siglo21/sistemapeluqueria/Login.fxml",
                 "Login");
     }
+
+    @FXML
+    public void gestionarProveedores(ActionEvent actionEvent) throws IOException {
+
+        // Obtengo el stage actual
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        //Cambio la vista
+        VistaUtil.cambiarVista(App.getPrimaryStage(), "/com/seminario/siglo21/sistemapeluqueria/GestionarProveedores.fxml",
+                "Sistema de Gestión - Gestionar Proveedores");
+
+    }
 }

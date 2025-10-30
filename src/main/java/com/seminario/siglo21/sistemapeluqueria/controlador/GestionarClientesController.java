@@ -12,14 +12,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 
 public class GestionarClientesController implements Initializable {
 
@@ -127,12 +124,9 @@ public class GestionarClientesController implements Initializable {
             VistaUtil.mostrarAlerta("info",
                     "Debe seleccionar un cliente para eliminar!");
         } else {
-            if (c.desactivaCliente()) {
+            if (c.eliminarCliente()) {
                 VistaUtil.mostrarAlerta("info",
-                        "El Cliente quedó inacivo, esto quiere decir que no se verá "
-                        + "en ninguna lista, pero si en los servicios "
-                        + "históricos que haya realizado, como turnos, "
-                        + "compras de producos, etc.");
+                        "El cliente se elimimió correctamente!");
             }
             cargarClientes();
         }

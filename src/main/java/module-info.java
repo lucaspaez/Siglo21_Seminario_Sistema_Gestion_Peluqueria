@@ -5,6 +5,7 @@ module com.seminario.siglo21.sistemapeluqueria {
     requires java.sql; // Para el API de JDBC
     requires mysql.connector.j; // Módulo del conector de MySQL
     requires javafx.graphics;
+    requires javafx.base;
 
     opens com.seminario.siglo21.sistemapeluqueria to javafx.fxml;
     opens com.seminario.siglo21.sistemapeluqueria.controlador to javafx.fxml;

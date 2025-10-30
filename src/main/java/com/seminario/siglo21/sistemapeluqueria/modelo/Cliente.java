@@ -119,6 +119,29 @@ public class Cliente extends Persona {
         }
     }
 
+    public boolean eliminarCliente() {
+
+        String consultaSql = "CALL EliminarOInactivarCliente(" + this.getIdCliente() + ");";
+
+        try {
+            // Inicializo variables de conexion
+            Connection conexion = ConexionBD.getConexion();
+
+            // Preparo la query en la conexion
+            PreparedStatement statement = conexion.prepareStatement(consultaSql);
+
+            // Ejecuto la Query
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            VistaUtil.mostrarAlerta("error",
+                    "Error al intentar eliminar el cliente: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
     public boolean desactivaCliente() {
 
         String consultaSql = "UPDATE Cliente SET activo = FALSE "
