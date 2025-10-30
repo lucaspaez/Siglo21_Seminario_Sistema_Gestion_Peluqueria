@@ -46,6 +46,9 @@
               <Label styleClass="pie" text="© 2025 Seminario de Práctica Informática - Siglo 21" />
             <Button fx:id="btnCerrarSesion" mnemonicParsing="false" onAction="#cerrarSesion" styleClass="btn-ghost" text="Cerrar Sesión" />
          </children>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
       </HBox>
    </bottom>
 </BorderPane>

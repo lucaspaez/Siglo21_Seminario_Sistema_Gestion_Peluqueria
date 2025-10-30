@@ -1,5 +1,6 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
+import com.seminario.siglo21.sistemapeluqueria.App;
 import com.seminario.siglo21.sistemapeluqueria.modelo.Cliente;
 import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.io.IOException;
@@ -11,11 +12,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
 
 public class GestionarClientesController implements Initializable {
 
@@ -41,6 +45,8 @@ public class GestionarClientesController implements Initializable {
     private TableColumn<?, ?> colTelefono;
     @FXML
     private TableColumn<?, ?> colEmail;
+    @FXML
+    private Button btnVolver;
 
     private ObservableList<Cliente> listaClientes;
 
@@ -132,4 +138,13 @@ public class GestionarClientesController implements Initializable {
         }
     }
 
+    @FXML
+    public void volverAtras(ActionEvent actionEvent) throws IOException {
+
+        // Sale al login
+        VistaUtil.cambiarVista(App.getPrimaryStage(),
+                "/com/seminario/siglo21/sistemapeluqueria/MenuPrincipal.fxml",
+                "Sistema de Gestión - Principal");
+
+    }
 }

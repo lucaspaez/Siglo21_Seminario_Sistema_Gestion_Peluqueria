@@ -11,8 +11,8 @@
    <children>
       <VBox alignment="CENTER" layoutX="20.0" layoutY="20.0" prefWidth="380.0" spacing="18.0">
          <children>
-            <Label styleClass="titulo-login" text="Sistema de Gestion de Peluqiería" />
-            <Label styleClass="subtitulo-login" text="Inicia Sesion" />
+            <Label styleClass="titulo-login" text="Gestión de Peluquería" />
+            <Label styleClass="subtitulo-login" text="Inicia Sesión" />
             <TextField fx:id="txtUsuario" prefWidth="300" promptText="Usuario" styleClass="md-textfield" />
             <PasswordField fx:id="txtContrasenia" promptText="Contraseña" styleClass="md-textfield" />
             <Button mnemonicParsing="false" onAction="#btnIngresar" prefWidth="300" styleClass="btn-primary" text="Ingresar" />
