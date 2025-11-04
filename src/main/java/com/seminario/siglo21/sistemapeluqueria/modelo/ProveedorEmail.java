@@ -1,32 +1,30 @@
 package com.seminario.siglo21.sistemapeluqueria.modelo;
 
 import com.seminario.siglo21.sistemapeluqueria.persistencia.ConexionBD;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
-import javafx.scene.control.Alert;
-
-public class ClienteEmail {
-
-    private int idCliente;
+public class ProveedorEmail {
+    private int idProveedor;
     private int idEmail;
 
-    public ClienteEmail(int idCliente, int idEmail) {
-        this.idCliente = idCliente;
+    public ProveedorEmail() {
+    }
+
+    public ProveedorEmail(int idProveedor, int idEmail) {
+        this.idProveedor = idProveedor;
         this.idEmail = idEmail;
     }
 
-    public ClienteEmail() {
+    public int getIdProveedor() {
+        return idProveedor;
     }
 
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
     public int getIdEmail() {
@@ -37,9 +35,9 @@ public class ClienteEmail {
         this.idEmail = idEmail;
     }
 
-    public void conectaClienteEmail() {
+    public void conectaProveedorEmail() {
 
-        String consultaSql = "INSERT INTO ClienteEmail "
+        String consultaSql = "INSERT INTO ProveedorEmail "
                 + "VALUES ( ?, ?);";
 
         try {
@@ -50,7 +48,7 @@ public class ClienteEmail {
             PreparedStatement statement = conexion.prepareStatement(consultaSql);
 
             // Asigno los valores del objeto Email
-            statement.setInt(1, this.getIdCliente());
+            statement.setInt(1, this.getIdProveedor());
             statement.setInt(2, this.getIdEmail());
 
             // Ejecuto la consulta

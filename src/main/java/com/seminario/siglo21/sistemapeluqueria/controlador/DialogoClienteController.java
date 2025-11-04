@@ -181,11 +181,11 @@ public class DialogoClienteController implements Initializable {
 
             // Guardo la direccion del cliente
             d.GuardarDirecionNueva();
-            System.out.println("ID de direccion: " + d.getIdDireccion());
+            //System.out.println("ID de direccion: " + d.getIdDireccion());
 
             // Guardo el cliente
             c.GuardarNuevoCliente(d.getIdDireccion());
-            System.out.println("ID de cliente es: " + c.getIdCliente());
+            //System.out.println("ID de cliente es: " + c.getIdCliente());
 
             // Guardo el telefono nuevo
             t.GuardarTelefonoNuevo();

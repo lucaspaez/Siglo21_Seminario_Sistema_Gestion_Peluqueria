@@ -103,10 +103,7 @@ public class Cliente extends Persona {
                 // Obtengo el ID Generado por la Base de Datos
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (rs.next()) {
-
                         setIdCliente(rs.getInt(1));
-                        System.out.println("ID de cliente es: " + getIdCliente());
-
                     }
                 }
             }

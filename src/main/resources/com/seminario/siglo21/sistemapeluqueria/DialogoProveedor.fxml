@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane styleClass="root-pane" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.DialogoProveedorController">
+    <top>
+        <HBox spacing="10.0" styleClass="top-bar" BorderPane.alignment="CENTER">
+            <children>
+                <Label styleClass="titulo-app" text="Gestión de Proveedores - Agregar o Editar Proveedor" />
+            </children>
+            <padding>
+                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+            </padding>
+        </HBox>
+    </top>
+    <center>
+        <VBox spacing="12.0">
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+            </padding>
+            <children>
+                <Label styleClass="subtitulo-login" text="Datos Proveedor" />
+                <HBox spacing="10.0">
+                    <children>
+                        <TextField fx:id="txtRazonSocial" promptText="Razon Social" styleClass="md-textfield" />
+                        <TextField fx:id="txtCuit" promptText="Cuit" styleClass="md-textfield" />
+                    </children>
+                </HBox>
+                <Label layoutX="26.0" layoutY="26.0" styleClass="subtitulo-login" text="Dirección" />
+                <HBox layoutX="26.0" layoutY="53.0" spacing="10.0">
+                    <children>
+                        <TextField fx:id="txtCalleProveedor" prefHeight="39.0" prefWidth="166.0" promptText="Calle" styleClass="md-textfield" />
+                        <TextField fx:id="txtNumeroProveedor" prefHeight="39.0" prefWidth="76.0" promptText="Número" styleClass="md-textfield" />
+                        <TextField fx:id="txtPisoProveedor" prefHeight="39.0" prefWidth="61.0" promptText="Piso" styleClass="md-textfield" />
+                        <TextField fx:id="txtCiudadProveedor" layoutX="227.0" layoutY="10.0" prefHeight="39.0" prefWidth="138.0" promptText="Ciudad" styleClass="md-textfield" />
+                    </children>
+                </HBox>
+                <HBox layoutX="26.0" layoutY="131.0" spacing="10.0">
+                    <children>
+                        <TextField fx:id="txtProvinciaProveedor" prefHeight="39.0" prefWidth="146.0" promptText="Provincia" styleClass="md-textfield" />
+                        <TextField fx:id="txtPaisProveedor" layoutX="10.0" layoutY="10.0" prefHeight="39.0" prefWidth="146.0" promptText="País" styleClass="md-textfield" />
+                        <TextField fx:id="txtCpProveedor" layoutX="227.0" layoutY="10.0" prefHeight="39.0" prefWidth="111.0" promptText="Código Postal" styleClass="md-textfield" />
+                    </children>
+                </HBox>
+                <Label layoutX="26.0" layoutY="104.0" styleClass="subtitulo-login" text="Contacto" />
+                <HBox layoutX="26.0" layoutY="53.0" spacing="10.0">
+                    <children>
+                        <TextField fx:id="txtTelefonoProveedor" promptText="Teléfono" styleClass="md-textfield" />
+                        <TextField fx:id="txtEmailProveedor" prefHeight="39.0" prefWidth="246.0" promptText="Email" styleClass="md-textfield" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" layoutX="26.0" layoutY="269.0" spacing="10.0">
+                    <children>
+                        <Label fx:id="lblMensaje" styleClass="mensaje" />
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" layoutX="26.0" layoutY="56.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#Guardar" styleClass="btn-primary" text="Guardar" />
+                        <Button fx:id="Cancelar" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Cancelar" styleClass="btn-secondary" text="Cancelar" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <Label styleClass="pie" text="© 2025 Seminario de Práctica Informática - Siglo 21" BorderPane.alignment="TOP_LEFT" />
+    </bottom>
+</BorderPane>

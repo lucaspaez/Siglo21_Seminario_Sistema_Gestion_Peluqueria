@@ -80,17 +80,56 @@ public class GestionarProveedoresController implements Initializable {
     }
 
     @FXML
-    void agregarProveedor(ActionEvent event) {
-
+    void agregarProveedor(ActionEvent event) throws IOException {
+        VistaUtil.mostrarVentanaModal(
+                "/com/seminario/siglo21/sistemapeluqueria/DialogoProveedor.fxml",
+                "Gestión de Proveedores"
+        );
     }
 
     @FXML
-    void editarProveedor(ActionEvent event) {
+    void editarProveedor(ActionEvent event) throws IOException {
+
+        // Obtengo el id del proveedor que quiero editar
+        Proveedor p = (Proveedor) this.tablaProveedores.getSelectionModel().getSelectedItem();
+
+        //Verificio que efectivamente se haya seleccionado un cliente
+        if (p == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar un proveedor para editar!");
+        } else {
+
+            //System.out.println("ID Proveedor a editar: " + p.getIdProveedor());
+
+            DialogoProveedorController controlador = VistaUtil.abrirVentanaYObtenerControlador(
+                    "/com/seminario/siglo21/sistemapeluqueria/DialogoProveedor.fxml",
+                    "Gestión de Proveedores - Editar Proveedor",
+                    ctrl -> {
+                        ctrl.setIdProveedorEditar(p.getIdProveedor());
+                        ctrl.muestraProveedorEnLosCampos();
+                    }
+            );
+        }
 
     }
 
     @FXML
     void eliminarProveedor(ActionEvent event) {
+
+        // Obtengo el id del poveedor que quiero eliminar
+        Proveedor p = (Proveedor) this.tablaProveedores.getSelectionModel().getSelectedItem();
+
+        //Verificio que efectivamente se haya seleccionado un proveedor
+        if (p == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar un cliente para eliminar!");
+        } else {
+            if (p.eliminarProveedor()) {
+                VistaUtil.mostrarAlerta("info",
+                        "El proveedor se elimimió correctamente!");
+            }
+            cargarProveedores();
+        }
 
     }
 
