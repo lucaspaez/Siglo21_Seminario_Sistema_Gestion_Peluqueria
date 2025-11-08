@@ -1,11 +1,6 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
-import com.seminario.siglo21.sistemapeluqueria.modelo.Cliente;
-import com.seminario.siglo21.sistemapeluqueria.modelo.ClienteEmail;
-import com.seminario.siglo21.sistemapeluqueria.modelo.ClienteTelefono;
-import com.seminario.siglo21.sistemapeluqueria.modelo.Direccion;
-import com.seminario.siglo21.sistemapeluqueria.modelo.Email;
-import com.seminario.siglo21.sistemapeluqueria.modelo.Telefono;
+import com.seminario.siglo21.sistemapeluqueria.modelo.*;
 import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -93,7 +88,8 @@ public class DialogoClienteController implements Initializable {
         this.txtTelefonoCliente.setText(t.getTelefono() + "");
 
         // Obtengo el Email
-        e.cargarEmail(c.getIdCliente());
+        ClienteEmail cmail = new ClienteEmail();
+        cmail.cargarEmail(c.getIdCliente(), this.e);
 
         // Cargo el campo del Email
         this.txtEmailCliente.setText(e.getEmail());
@@ -131,9 +127,9 @@ public class DialogoClienteController implements Initializable {
 
             // Piso opcional
             if (!this.txtPisoCliente.getText().isEmpty()) {
-                d.setPiso(Integer.parseInt(this.txtPisoCliente.getText()));
+                d.setPiso(this.txtPisoCliente.getText());
             } else {
-                d.setPiso(0);
+                d.setPiso("");
             }
 
             d.setCiudad(this.txtCiudadCliente.getText());
@@ -263,14 +259,7 @@ public class DialogoClienteController implements Initializable {
             }
         }
         // PISO (opcional)
-        if (!this.txtPisoCliente.getText().isEmpty()) {
-            try {
-                int piso = Integer.parseInt(this.txtPisoCliente.getText());
-            } catch (NumberFormatException e) {
-                this.lblMensaje.setText("El piso en la dirección debe ser un número.");
-                return false;
-            }
-        }
+
         // CIUDAD
         if (this.txtCiudadCliente.getText().isEmpty()) {
             this.lblMensaje.setText("Debe ingresar la ciudad en la dirección.");

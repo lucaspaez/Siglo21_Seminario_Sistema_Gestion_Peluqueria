@@ -14,7 +14,7 @@ public class ProveedorTelefono {
     public ProveedorTelefono() {
     }
 
-    public ProveedorTelefono(int idTelefono, int idProveedor) {
+    public ProveedorTelefono(int idProveedor, int idTelefono) {
         this.idTelefono = idTelefono;
         this.idProveedor = idProveedor;
     }
@@ -47,9 +47,9 @@ public class ProveedorTelefono {
             // Preparamos con la consulta
             PreparedStatement statement = conexion.prepareStatement(consultaSql);
 
-            System.out.println("se conectaran:");
-            System.out.println("Id Proveedor: " + this.getIdProveedor());
-            System.out.println("Id Telefono: " + this.getIdTelefono());
+            //System.out.println("se conectaran:");
+            //System.out.println("Id Proveedor: " + this.getIdProveedor());
+            //System.out.println("Id Telefono: " + this.getIdTelefono());
 
             // Asigno los valores del objeto Telefono
             statement.setInt(1, this.getIdProveedor());

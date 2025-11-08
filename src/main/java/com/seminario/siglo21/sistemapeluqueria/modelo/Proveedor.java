@@ -136,7 +136,7 @@ public class Proveedor {
         String consultaSql = "UPDATE Proveedor "
                 + "SET "
                 + "razonSocial = '"+ this.getRazonSocial() +"', "
-                + "cuit = '"+ this.getCuit() +"', "
+                + "cuit = '"+ this.getCuit() +"' "
                 + "WHERE idProveedor = " + this.getIdProveedor() + ";";
 
         try {
@@ -185,7 +185,8 @@ public class Proveedor {
                 // Obtengo el ID Generado por la Base de Datos
                 try (ResultSet rs = statement.getGeneratedKeys()) {
                     if (rs.next()) {
-                        setIdProveedor(rs.getInt(1));
+                        this.setIdProveedor(rs.getInt(1));
+                        //System.out.println("ID Proveedor guardado: " + this.getIdProveedor());
                     }
                 }
             }
@@ -220,7 +221,7 @@ public class Proveedor {
 
             // Cargo el cliente
             if (resultSet.next()) {
-                setIdProveedor(resultSet.getInt("idCliente"));
+                setIdProveedor(resultSet.getInt("idProveedor"));
                 setRazonSocial(resultSet.getString("razonSocial"));
                 setCuit(resultSet.getString("cuit"));
                 return resultSet.getInt("idDireccion");

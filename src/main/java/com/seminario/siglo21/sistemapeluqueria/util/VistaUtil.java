@@ -105,15 +105,7 @@ public class VistaUtil {
                 return false;
             }
         }
-        // PISO (opcional)
-        if (!piso.getText().isEmpty()) {
-            try {
-                int p = Integer.parseInt(piso.getText());
-            } catch (NumberFormatException e) {
-                lblMensaje.setText("El piso en la dirección debe ser un número.");
-                return false;
-            }
-        }
+
         // CIUDAD
         if (ciudad.getText().isEmpty()) {
             lblMensaje.setText("Debe ingresar la ciudad en la dirección.");

@@ -51,8 +51,6 @@ public class Telefono {
             PreparedStatement statement = conexion.prepareStatement(consultaSql,
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
-            System.out.println(consultaSql);
-
             // Asigno los valores del objeto Telefono
             statement.setInt(1, this.getTelefono());
 

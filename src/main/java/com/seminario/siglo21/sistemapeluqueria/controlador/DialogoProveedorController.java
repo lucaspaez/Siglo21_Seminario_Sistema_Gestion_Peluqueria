@@ -61,9 +61,9 @@ public class DialogoProveedorController {
 
             // Piso opcional
             if (!this.txtPisoProveedor.getText().isEmpty()) {
-                d.setPiso(Integer.parseInt(this.txtPisoProveedor.getText()));
+                d.setPiso(this.txtPisoProveedor.getText());
             } else {
-                d.setPiso(0);
+                d.setPiso("");
             }
 
             d.setCiudad(this.txtCiudadProveedor.getText());
@@ -112,7 +112,7 @@ public class DialogoProveedorController {
 
             // Guardo el proveedor
             p.GuardarNuevoProveedor(d.getIdDireccion());
-            System.out.println("ID de Proveedor es: " + p.getIdProveedor());
+            //System.out.println("ID de Proveedor es: " + p.getIdProveedor());
 
             // Guardo el telefono nuevo
             t.GuardarTelefonoNuevo();
@@ -121,6 +121,7 @@ public class DialogoProveedorController {
             e.GuardarEmailNuevo();
 
             // Conecto el telefono y el mail con el Proveedor
+            //System.out.println("Id a pasar: " + p.getIdProveedor());
             ProveedorTelefono proveedorTelefono = new ProveedorTelefono(p.getIdProveedor(), t.getIdTelefono());
             proveedorTelefono.conectarProveedorTelefono();
 
@@ -186,11 +187,10 @@ public class DialogoProveedorController {
         this.txtTelefonoProveedor.setText(t.getTelefono() + "");
 
         // Obtengo el Email
-        e.cargarEmail(p.getIdProveedor());
+        ProveedorEmail pmail = new ProveedorEmail();
+        pmail.cargarEmail(p.getIdProveedor(), this.e);
 
         // Cargo el campo del Email
         this.txtEmailProveedor.setText(e.getEmail());
-
-
     }
 }

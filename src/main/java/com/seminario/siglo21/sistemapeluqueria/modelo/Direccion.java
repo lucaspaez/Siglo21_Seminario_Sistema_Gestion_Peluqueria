@@ -14,7 +14,7 @@ public class Direccion {
     private int idDireccion;
     private String calle;
     private int numero;
-    private int piso;
+    private String piso;
     private String ciudad;
     private String provincia;
     private String pais;
@@ -24,7 +24,7 @@ public class Direccion {
     public Direccion() {
     }
 
-    public Direccion(int idDireccion, String calle, int numero, int piso, String ciudad, String provincia, String pais, int codigoPostal) {
+    public Direccion(int idDireccion, String calle, int numero, String piso, String ciudad, String provincia, String pais, int codigoPostal) {
         this.idDireccion = idDireccion;
         this.calle = calle;
         this.numero = numero;
@@ -60,11 +60,11 @@ public class Direccion {
         this.numero = numero;
     }
 
-    public int getPiso() {
+    public String getPiso() {
         return piso;
     }
 
-    public void setPiso(int piso) {
+    public void setPiso(String piso) {
         this.piso = piso;
     }
 
@@ -116,7 +116,7 @@ public class Direccion {
             // Asigno los valores del objeto Direccion
             statement.setString(1, this.getCalle());
             statement.setInt(2, this.getNumero());
-            statement.setInt(3, this.getPiso());
+            statement.setString(3, this.getPiso());
             statement.setString(4, this.getCiudad());
             statement.setString(5, this.getProvincia());
             statement.setString(6, this.getPais());
@@ -130,7 +130,6 @@ public class Direccion {
                     if (rs.next()) {
 
                         setIdDireccion(rs.getInt(1));
-                        System.out.println("El idDireccion es: " + getIdDireccion());
                     }
                 }
             }
@@ -152,7 +151,7 @@ public class Direccion {
                 + "SET "
                     + "calle = '"+ this.getCalle() +"', "
                     + "numero = "+ this.getNumero() +", "
-                    + "piso = "+ this.getPiso() +", "
+                    + "piso = '"+ this.getPiso() +"', "
                     + "ciudad = '"+ this.getCiudad() +"', "
                     + "provincia = '"+ this.getProvincia() +"', "
                     + "pais = '"+ this.getPais() +"', "
@@ -204,7 +203,7 @@ public class Direccion {
                 setIdDireccion(resultSet.getInt("idDireccion"));
                 setCalle(resultSet.getString("calle"));
                 setNumero(resultSet.getInt("numero"));
-                setPiso(resultSet.getInt("piso"));
+                setPiso(resultSet.getString("piso"));
                 setCiudad(resultSet.getString("ciudad"));
                 setProvincia(resultSet.getString("provincia"));
                 setPais(resultSet.getString("pais"));
