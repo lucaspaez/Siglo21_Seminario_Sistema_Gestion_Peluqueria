@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600" prefWidth="900" styleClass="root-pane" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.GestionarProductosController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-bar">
+            <Label styleClass="titulo-app" text="Gestión de Productos" />
+            <padding>
+                <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+            </padding>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="12">
+
+            <HBox spacing="10">
+                <TextField fx:id="txtFiltroProducto" prefWidth="300" promptText="Filtrar por Producto" styleClass="md-textfield" />
+            </HBox>
+            <TableView fx:id="tablaProductos" prefHeight="380" styleClass="md-table">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="42.0" text="ID" />
+                    <TableColumn fx:id="colSkuProducto" prefWidth="46.0" text="SKU" />
+                    <TableColumn fx:id="colNombreProducto" prefWidth="112.0" text="Producto" />
+                    <TableColumn fx:id="colDescripcionProducto" prefWidth="222.0" text="Descripción del Producto" />
+                    <TableColumn fx:id="colPrecioCosto" prefWidth="96.0" text="Precio de Costo" />
+                    <TableColumn fx:id="colPrecioVenta" prefWidth="102.0" text="Precio de Venta" />
+                    <TableColumn fx:id="colMarca" maxWidth="237.0" prefWidth="110.0" text="Marca" />
+                    <TableColumn fx:id="colProveedor" maxWidth="390.0" prefWidth="136.0" text="Proveedor" />
+                </columns>
+            </TableView>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Button fx:id="btnAgregar" onAction="#agregarProducto" styleClass="btn-primary" text="Agregar" />
+                <Button fx:id="btnEditar" onAction="#editarProducto" styleClass="btn-secondary" text="Editar" />
+                <Button fx:id="btnEliminar" onAction="#eliminarProducto" styleClass="btn-secondary" text="Eliminar" />
+                <Button fx:id="btnRefrescar" onAction="#refrescarTabla" styleClass="btn-ghost" text="Refrescar" />
+                <Button fx:id="btnVolver" layoutX="252.0" layoutY="11.0" onAction="#volverAtras" styleClass="btn-ghost" text="&lt;&lt;" />
+            </HBox>
+            <padding>
+                <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+            </padding>
+        </VBox>
+    </center>
+
+    <bottom>
+        <Label styleClass="pie" text="© 2025 Seminario de Práctica Informática - Siglo 21" />
+    </bottom>
+</BorderPane>

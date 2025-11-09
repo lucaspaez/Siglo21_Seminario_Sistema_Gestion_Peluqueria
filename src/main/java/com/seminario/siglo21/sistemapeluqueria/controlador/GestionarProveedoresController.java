@@ -141,7 +141,7 @@ public class GestionarProveedoresController implements Initializable {
     @FXML
     void volverAtras(ActionEvent event) throws IOException {
 
-        // Sale al login
+        // Sale al menú principal
         VistaUtil.cambiarVista(App.getPrimaryStage(),
                 "/com/seminario/siglo21/sistemapeluqueria/MenuPrincipal.fxml",
                 "Sistema de Gestión - Principal");
