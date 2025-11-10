@@ -75,4 +75,24 @@ public class MenuPrincipalController implements Initializable {
                 "Sistema de Gestión - Gestionar Productos");
 
     }
+
+    public void gestionarVentas(ActionEvent actionEvent) {
+    }
+
+    public void GestionarReportes(ActionEvent actionEvent) {
+    }
+
+    public void gestionarServicios(ActionEvent actionEvent) throws IOException {
+
+        // Obtengo el stage actual
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        //Cambio la vista
+        VistaUtil.cambiarVista(App.getPrimaryStage(), "/com/seminario/siglo21/sistemapeluqueria/GestionarServicios.fxml",
+                "Sistema de Gestión - Gestionar Servicios");
+
+    }
+
+    public void gestionarColaboradores(ActionEvent actionEvent) {
+    }
 }

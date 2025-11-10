@@ -22,13 +22,15 @@
 </top>
 
     <center>
-        <GridPane alignment="CENTER" hgap="20" vgap="20">
-            <Button fx:id="btnClientes" onAction="#gestionarCliente" styleClass="btn-primary" text="Gestión de Clientes" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Button fx:id="btnTurnos" styleClass="btn-secondary" text="Gestión de Turnos" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Button fx:id="btnProductos" onAction="#gestionarProducto" styleClass="btn-secondary" text="Gestión de Productos" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <GridPane alignment="CENTER" hgap="20" prefHeight="377.0" prefWidth="800.0" vgap="20">
+            <Button fx:id="btnClientes" onAction="#gestionarCliente" styleClass="btn-secondary" text="Gestión de Clientes" GridPane.columnIndex="1" />
+            <Button fx:id="btnTurnos" styleClass="btn-primary" text="Gestión de Turnos" />
+            <Button fx:id="btnProductos" onAction="#gestionarProducto" styleClass="btn-secondary" text="Gestión de Productos" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button fx:id="btnProveedores" onAction="#gestionarProveedores" styleClass="btn-secondary" text="Gestión de Proveedores" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="btnVentas" styleClass="btn-secondary" text="Gestión de Ventas" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <Button fx:id="btnReportes" styleClass="btn-secondary" text="Reportes" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="btnVentas" onAction="#gestionarVentas" styleClass="btn-secondary" text="Gestión de Ventas" GridPane.rowIndex="5" />
+            <Button fx:id="btnReportes" onAction="#GestionarReportes" styleClass="btn-secondary" text="Reportes" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <Button fx:id="btnServicios" onAction="#gestionarServicios" styleClass="btn-secondary" text="Gestión de Servicios" GridPane.rowIndex="2" />
+         <Button fx:id="btnColaboradores" onAction="#gestionarColaboradores" styleClass="btn-secondary" text="Gestión de Colaboradores" GridPane.rowIndex="1" />
          <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
@@ -37,6 +39,9 @@
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
          </rowConstraints>
         </GridPane>
     </center>

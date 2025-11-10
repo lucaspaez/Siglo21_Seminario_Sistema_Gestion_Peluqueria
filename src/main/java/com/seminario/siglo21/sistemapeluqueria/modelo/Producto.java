@@ -230,7 +230,7 @@ public class Producto {
             // Ejecuto la Query
             resultSet = statement.executeQuery();
 
-            // Cargo el cliente
+            // Cargo el Producto
             if (resultSet.next()) {
                 this.setIdProducto(resultSet.getInt("idProducto"));
                 this.setNombreProducto(resultSet.getString("nombreProducto"));
