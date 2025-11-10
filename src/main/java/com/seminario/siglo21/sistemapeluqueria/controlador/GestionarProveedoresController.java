@@ -93,7 +93,7 @@ public class GestionarProveedoresController implements Initializable {
         // Obtengo el id del proveedor que quiero editar
         Proveedor p = (Proveedor) this.tablaProveedores.getSelectionModel().getSelectedItem();
 
-        //Verificio que efectivamente se haya seleccionado un cliente
+        //Verificio que efectivamente se haya seleccionado un proveedor
         if (p == null) {
             VistaUtil.mostrarAlerta("info",
                     "Debe seleccionar un proveedor para editar!");
@@ -122,7 +122,7 @@ public class GestionarProveedoresController implements Initializable {
         //Verificio que efectivamente se haya seleccionado un proveedor
         if (p == null) {
             VistaUtil.mostrarAlerta("info",
-                    "Debe seleccionar un cliente para eliminar!");
+                    "Debe seleccionar un proveedor para eliminar!");
         } else {
             if (p.eliminarProveedor()) {
                 VistaUtil.mostrarAlerta("info",

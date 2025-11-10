@@ -202,7 +202,6 @@ public class Proveedor {
 
     public int cargarProveedor(int id) {
 
-
         String consultaSQL = "SELECT * FROM Proveedor "
                 + "WHERE idProveedor = " + id;
 

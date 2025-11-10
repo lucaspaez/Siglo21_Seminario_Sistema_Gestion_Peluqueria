@@ -49,8 +49,16 @@ public class DialogoProductoController implements Initializable {
 
 
     private Producto producto = new Producto();
-    private String marca;
-    private String proveedor;
+
+    private int idProductoEditar;
+
+    public int getIdProductoEditar() {
+        return idProductoEditar;
+    }
+
+    public void setIdProductoEditar(int idProductoEditar) {
+        this.idProductoEditar = idProductoEditar;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,7 +124,7 @@ public class DialogoProductoController implements Initializable {
 
         // Valido campo de la Marca
         if (cmbMarca.getValue() != null) {
-            marca = this.cmbMarca.getValue();
+            producto.setMarcaProducto(this.cmbMarca.getValue());
         } else {
             VistaUtil.mostrarAlerta(
                     "error",
@@ -128,7 +136,7 @@ public class DialogoProductoController implements Initializable {
 
         // Valido campo del Proveedor
         if (cmbProveedor.getValue() != null) {
-            proveedor = this.cmbProveedor.getValue();
+            producto.setProveedorProducto(this.cmbProveedor.getValue());
         } else {
             VistaUtil.mostrarAlerta(
                     "error",
@@ -140,13 +148,13 @@ public class DialogoProductoController implements Initializable {
 
         if (producto.getIdProducto() != 0) { // Debo actualizar un cliente
 
-            if (producto.actualizarProducto(marca, proveedor))
+            if (producto.actualizarProducto())
                 VistaUtil.mostrarAlerta("info",
                     "El producto se actualizó correctamente, refresque la tabla para ver los cambios.");
 
         }else{ // Debo Agregar un producto nuevo
 
-            if (producto.agregarProductoNuevo(marca, proveedor));
+            if (producto.agregarProductoNuevo());
                 VistaUtil.mostrarAlerta("info",
                     "El producto se creó correctamente, refresque la tabla para ver los cambios.");
 
@@ -179,4 +187,18 @@ public class DialogoProductoController implements Initializable {
         return true;
     }
 
+    public void muestraProductoEnLosCampos() {
+
+        producto.cargarProducto(idProductoEditar);
+
+        this.txtSku.setText(producto.getSkuProducto());
+        this.txtNombreProducto.setText(producto.getNombreProducto());
+        this.txtDescripcionProducto.setText(producto.getDescripcionProducto());
+        this.txtPrecioCosto.setText(String.valueOf(producto.getPrecioCostoProducto()));
+        this.txtPrecioVenta.setText(String.valueOf(producto.getPrecioVentaProducto()));
+        cargarMarcas();
+        cargarProveedores();
+        this.cmbMarca.setValue(producto.getMarcaProducto());
+        this.cmbProveedor.setValue(producto.getProveedorProducto());
+    }
 }

@@ -84,13 +84,46 @@ public class GestionarProductosController implements Initializable {
     }
 
     @FXML
-    void editarProducto(ActionEvent event) {
+    void editarProducto(ActionEvent event) throws IOException {
+
+        // Obtengo el id del producto que quiero editar
+        Producto p = (Producto) this.tablaProductos.getSelectionModel().getSelectedItem();
+
+        //Verificio que efectivamente se haya seleccionado un producto
+        if (p == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar un producto para editar!");
+        } else {
+
+            DialogoProductoController controlador = VistaUtil.abrirVentanaYObtenerControlador(
+                    "/com/seminario/siglo21/sistemapeluqueria/DialogoProducto.fxml",
+                    "Gestión de Productos - Editar Producto",
+                    ctrl -> {
+                        ctrl.setIdProductoEditar(p.getIdProducto());
+                        ctrl.muestraProductoEnLosCampos();
+                    }
+            );
+        }
 
     }
 
     @FXML
     void eliminarProducto(ActionEvent event) {
 
+        // Obtengo el id del producto que quiero eliminar
+        Producto p = (Producto) this.tablaProductos.getSelectionModel().getSelectedItem();
+
+        //Verificio que efectivamente se haya seleccionado un proveedor
+        if (p == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar un producto para eliminar!");
+        } else {
+            if (p.eliminarProducto()) {
+                VistaUtil.mostrarAlerta("info",
+                        "El producto se elimimió correctamente!");
+            }
+            cargarProductos();
+        }
     }
 
     @FXML
