@@ -15,4 +15,5 @@ module com.seminario.siglo21.sistemapeluqueria {
     exports com.seminario.siglo21.sistemapeluqueria.persistencia;
     exports com.seminario.siglo21.sistemapeluqueria.modelo;
     exports com.seminario.siglo21.sistemapeluqueria.util;
+    opens com.seminario.siglo21.sistemapeluqueria.modelo to javafx.fxml;
 }

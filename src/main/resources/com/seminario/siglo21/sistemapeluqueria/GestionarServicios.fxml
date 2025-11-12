@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600" prefWidth="900" styleClass="root-pane" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.GestionarServiciosController">
+<BorderPane prefHeight="600" prefWidth="900" styleClass="root-pane" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.GestionarServiciosController">
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10" styleClass="top-bar">
             <Label styleClass="titulo-app" text="Gestión de Servicios" />
@@ -33,6 +27,7 @@
                     <TableColumn fx:id="colDescripcionServicio" prefWidth="317.0" text="Descripción" />
                     <TableColumn fx:id="colDuracionServicio" prefWidth="163.0" text="Duración (horas)" />
                     <TableColumn fx:id="colPrecioServicio" prefWidth="87.0" text="Precio" />
+                    <TableColumn fx:id="colCategoria" prefWidth="87.0" text="Categoria" />
                 </columns>
             </TableView>
 

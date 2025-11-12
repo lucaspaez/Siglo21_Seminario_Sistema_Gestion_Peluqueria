@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
 public class GestionarServiciosController implements Initializable {
 
     @FXML
+    public TableColumn<?, ?> colCategoria;
+    @FXML
     private Button btnAgregar;
     @FXML
     private Button btnEditar;
@@ -60,6 +62,7 @@ public class GestionarServiciosController implements Initializable {
         colDescripcionServicio.setCellValueFactory(new PropertyValueFactory("descripcion"));
         colDuracionServicio.setCellValueFactory(new PropertyValueFactory("duracionHoras"));
         colPrecioServicio.setCellValueFactory(new PropertyValueFactory("precio"));
+        colCategoria.setCellValueFactory(new PropertyValueFactory("categoria"));
 
         cargarServicios();
 

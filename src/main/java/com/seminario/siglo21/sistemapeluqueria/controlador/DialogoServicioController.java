@@ -1,17 +1,29 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
+import com.seminario.siglo21.sistemapeluqueria.modelo.CategoriaServicio;
+import com.seminario.siglo21.sistemapeluqueria.modelo.MarcaProducto;
 import com.seminario.siglo21.sistemapeluqueria.modelo.ServicioInterno;
 import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class DialogoServicioController {
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
+public class DialogoServicioController implements Initializable {
+
+    public ComboBox<String> cmbCategoriaServicio;
     @FXML
     private Button Cancelar;
     @FXML
@@ -29,6 +41,24 @@ public class DialogoServicioController {
 
     private ServicioInterno servicio = new ServicioInterno();
     private int idServicioEditar;
+
+    private ObservableList<String> listaCategorias;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        listaCategorias = FXCollections.observableArrayList();
+        cargarCartegorias();
+    }
+
+    private void cargarCartegorias() {
+        List<CategoriaServicio> datos = CategoriaServicio.listarCategoriasServicios();
+
+        List<String> nombres = datos.stream()
+                .map(CategoriaServicio::getNombreCategoria)
+                .collect(Collectors.toList());
+        listaCategorias.setAll(nombres);
+        cmbCategoriaServicio.setItems(listaCategorias);
+    }
 
     public int getIdServicioEditar() {
         return idServicioEditar;
@@ -65,6 +95,18 @@ public class DialogoServicioController {
                 return;
             }
         } else {
+            return;
+        }
+
+        // Valido campo de la Categoria
+        if (cmbCategoriaServicio.getValue() != null) {
+            servicio.setCategoria(this.cmbCategoriaServicio.getValue());
+        } else {
+            VistaUtil.mostrarAlerta(
+                    "error",
+                    "Debe Seleccionar la categoria del producto, si no existe la categoria buscada debe crearla antes " +
+                            "de crear el producto."
+            );
             return;
         }
 
@@ -115,6 +157,9 @@ public class DialogoServicioController {
         this.txtDescripcionServicio.setText(servicio.getDescripcion());
         this.txtDuracionHoras.setText(String.valueOf(servicio.getDuracionHoras()));
         this.txtPrecio.setText(String.valueOf(servicio.getPrecio()));
+
+        cargarCartegorias();
+        this.cmbCategoriaServicio.setValue(servicio.getCategoria());
 
     }
 }
