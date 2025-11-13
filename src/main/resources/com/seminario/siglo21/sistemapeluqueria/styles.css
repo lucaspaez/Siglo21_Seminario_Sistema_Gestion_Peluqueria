@@ -1,0 +1,179 @@
+/*
+ * Basado en la paleta Material Design del proyecto:
+ * Primary: #673AB7 (Deep Purple)
+ * Background: #F4F7FA
+ */
+
+/* --- Layout General --- */
+
+.root-pane, .border-pane {
+    -fx-background-color: #F4F7FA;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.header-bar {
+    /* Usamos el mismo degradado de la barra superior de la app para coherencia */
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 0%, #512DA8, #673AB7);
+    -fx-padding: 12 15 12 15;
+    -fx-spacing: 15;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.header-bar Button {
+    /* Botones de navegación */
+    -fx-background-color: #D1C4E9; /* btn-secondary */
+    -fx-text-fill: #212121;
+    -fx-font-weight: 500;
+    -fx-background-radius: 8px;
+    -fx-padding: 6 12 6 12;
+}
+.header-bar Button:hover { -fx-background-color: #C4B5E6; }
+
+.header-bar .date-picker {
+    /* Estilo del DatePicker para que coincida con .md-textfield */
+    -fx-background-color: white;
+    -fx-border-color: #D6D1F0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.view-title {
+    /* Coherente con .titulo-app */
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+}
+
+.toggle-button {
+    /* Estilo para los botones de vista (Día/Semana) */
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+}
+.toggle-button:selected {
+    /* El botón seleccionado usa el color primario, invirtiendo el texto */
+    -fx-background-color: white;
+    -fx-text-fill: #673AB7;
+    -fx-border-color: white;
+}
+.toggle-button:hover {
+    -fx-opacity: 0.85;
+}
+
+/* --- Panel Lateral (Sidebar) --- */
+
+.sidebar {
+    -fx-padding: 15;
+    -fx-background-color: white;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 0 0 0 1; /* Línea divisoria suave */
+}
+
+.sidebar-title {
+    -fx-font-weight: bold;
+    -fx-text-fill: #673AB7; /* Color primario para títulos de sección */
+    -fx-font-size: 1.1em;
+}
+
+/* Botón Nuevo Turno (usa btn-primary) */
+.sidebar .button {
+    -fx-background-color: #673AB7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 10 18 10 18;
+}
+.sidebar .button:hover { -fx-background-color: #512DA8; }
+
+
+/* --- Cuadrícula del Calendario --- */
+
+.calendar-grid {
+    -fx-background-color: white;
+    -fx-grid-lines-visible: true;
+    -fx-border-color: #D6D1F0; /* Borde suave */
+}
+
+.day-header {
+    -fx-padding: 10 0 5 0;
+    -fx-background-color: #EEEEEE; /* Fondo gris claro */
+    -fx-border-color: #D6D1F0;
+    -fx-border-width: 0 0 1 1;
+}
+
+.time-label {
+    -fx-padding: 0 5 0 0;
+    -fx-font-size: 0.9em;
+    -fx-text-fill: #757575; /* Coherente con el .pie */
+    -fx-alignment: top-right;
+}
+
+/* --- Bloques de Cita (Turnos) --- */
+
+.appointment-block {
+    -fx-padding: 5;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-border-width: 1;
+    -fx-opacity: 0.95;
+    -fx-cursor: hand;
+    -fx-min-height: 100%;
+    /* Utiliza una sombra suave, similar a .md-table */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 4, 0, 0, 2);
+}
+
+.appointment-block:hover {
+    -fx-opacity: 1.0;
+    -fx-border-width: 2;
+}
+
+.appointment-time {
+    -fx-font-size: 0.8em;
+    -fx-font-weight: bold;
+}
+
+.appointment-client {
+    -fx-font-size: 0.9em;
+    -fx-font-weight: 600; /* Ligeramente más grueso */
+}
+
+.appointment-service {
+    -fx-font-size: 0.75em;
+    -fx-fill: #424242;
+    -fx-wrapping-width: 100;
+}
+
+/* --- Esquema de Colores (Estados) --- */
+
+/* PENDIENTE: Alerta Suave (Amarillo/Naranja) */
+.pendiente-turno {
+    -fx-background-color: #FFECB3; /* Amarillo Ámbar Suave */
+    -fx-border-color: #FFB300;
+    -fx-text-fill: #333333;
+}
+
+/* CONFIRMADO: Primario (Verde/Azul claro) */
+.confirmado-turno {
+    -fx-background-color: #C5CAE9; /* Índigo Suave (cerca del primario) */
+    -fx-border-color: #3F51B5;
+    -fx-text-fill: #333333;
+}
+
+/* REALIZADO: Finalizado (Gris) */
+.realizado-turno {
+    -fx-background-color: #E0E0E0; /* Gris */
+    -fx-border-color: #BDBDBD;
+    -fx-text-fill: #555555;
+    -fx-opacity: 0.7;
+}
+
+/* CANCELADO: Anulado (Rojo/Error) */
+.cancelado-turno {
+    -fx-background-color: #FFCDD2; /* Rojo Suave (similar al mensaje de error) */
+    -fx-border-color: #D32F2F; /* Rojo Oscuro */
+    -fx-text-fill: #555555;
+    -fx-opacity: 0.8;
+}

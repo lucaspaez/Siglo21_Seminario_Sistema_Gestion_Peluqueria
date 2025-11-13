@@ -24,7 +24,7 @@
     <center>
         <GridPane alignment="CENTER" hgap="20" prefHeight="377.0" prefWidth="800.0" vgap="20">
             <Button fx:id="btnClientes" onAction="#gestionarCliente" styleClass="btn-secondary" text="Gestión de Clientes" GridPane.columnIndex="1" />
-            <Button fx:id="btnTurnos" styleClass="btn-primary" text="Gestión de Turnos" />
+            <Button fx:id="btnTurnos" onAction="#gestionarTurno" styleClass="btn-primary" text="Gestión de Turnos" />
             <Button fx:id="btnProductos" onAction="#gestionarProducto" styleClass="btn-secondary" text="Gestión de Productos" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Button fx:id="btnProveedores" onAction="#gestionarProveedores" styleClass="btn-secondary" text="Gestión de Proveedores" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Button fx:id="btnVentas" onAction="#gestionarVentas" styleClass="btn-secondary" text="Gestión de Ventas" GridPane.rowIndex="5" />

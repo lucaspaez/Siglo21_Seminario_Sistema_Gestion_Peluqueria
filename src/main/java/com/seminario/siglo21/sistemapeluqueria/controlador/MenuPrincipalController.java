@@ -95,4 +95,13 @@ public class MenuPrincipalController implements Initializable {
 
     public void gestionarColaboradores(ActionEvent actionEvent) {
     }
+
+    @FXML
+    private void gestionarTurno(ActionEvent event) throws IOException {
+
+        // Sale al login
+        VistaUtil.cambiarVista(App.getPrimaryStage(),
+                "/com/seminario/siglo21/sistemapeluqueria/TurnoView.fxml",
+                "Turnos");
+    }
 }
