@@ -23,7 +23,7 @@
             <children>
             <HBox layoutX="26.0" layoutY="110.0" prefHeight="18.0" prefWidth="472.0">
                <children>
-                  <VBox prefHeight="77.0" prefWidth="152.0">
+                  <VBox prefHeight="63.0" prefWidth="141.0">
                      <children>
                         <Label prefHeight="38.0" prefWidth="141.0" styleClass="subtitulo-login" text="Categoria">
                            <padding>
@@ -36,7 +36,20 @@
                         <Insets right="20.0" />
                      </padding>
                   </VBox>
-                  <VBox prefHeight="77.0" prefWidth="129.0" />
+                  <VBox alignment="BOTTOM_LEFT" prefHeight="63.0" prefWidth="90.0">
+                     <children>
+                        <Button fx:id="btnModificarCategoria" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#modificarCategoria" prefHeight="35.0" prefWidth="87.0" styleClass="btn-ghost" text="Modificar" textAlignment="CENTER" />
+                     </children></VBox>
+                  <VBox alignment="BOTTOM_LEFT" prefHeight="63.0" prefWidth="105.0">
+                     <children>
+                        <Button fx:id="btnEliminarCategoria" mnemonicParsing="false" onAction="#eliminarCategoria" prefHeight="35.0" prefWidth="87.0" styleClass="btn-ghost" text="Eliminar" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="BOTTOM_RIGHT" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="btnCrearCategoria" mnemonicParsing="false" onAction="#crearCategoria" prefHeight="35.0" prefWidth="88.0" styleClass="btn-ghost" text="Nueva" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
                 <Label styleClass="subtitulo-login" text="Datos del Servicio" />

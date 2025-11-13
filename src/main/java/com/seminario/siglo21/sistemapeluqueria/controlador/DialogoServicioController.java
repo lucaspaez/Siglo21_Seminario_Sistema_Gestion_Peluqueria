@@ -1,7 +1,6 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
 import com.seminario.siglo21.sistemapeluqueria.modelo.CategoriaServicio;
-import com.seminario.siglo21.sistemapeluqueria.modelo.MarcaProducto;
 import com.seminario.siglo21.sistemapeluqueria.modelo.ServicioInterno;
 import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import javafx.collections.FXCollections;
@@ -16,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -112,6 +112,7 @@ public class DialogoServicioController implements Initializable {
 
         if (servicio.getIdServicioInterno() != 0) { // Debo actualizar un servicio
 
+            servicio.setActivo(true);
             if (servicio.actualizarServicio())
                 VistaUtil.mostrarAlerta("info",
                         "El Servicio se actualizó correctamente, refresque la tabla para ver los cambios.");
@@ -161,6 +162,60 @@ public class DialogoServicioController implements Initializable {
         cargarCartegorias();
         this.cmbCategoriaServicio.setValue(servicio.getCategoria());
 
+    }
+
+
+    public void modificarCategoria(ActionEvent actionEvent) throws IOException {
+
+        // Obtengo el id de la categoria que quiero editar
+        CategoriaServicio c = new CategoriaServicio();
+        String nombreCategoria = this.cmbCategoriaServicio.getValue();
+
+        c.setearCategoriaNombre(nombreCategoria);
+
+        //Verificio que efectivamente se haya seleccionado un servicio
+        if (nombreCategoria == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar una Categoria para Modificar!");
+        } else {
+
+            DialogoCategoriaServicioController controlador = VistaUtil.abrirVentanaYObtenerControlador(
+                    "/com/seminario/siglo21/sistemapeluqueria/DialogoCategoriaServicio.fxml",
+                    "Gestión de Servicios - Editar Categoría",
+                    ctrl -> {
+                        ctrl.setIdCategoriaEditar(c.getIdCategoria());
+                        ctrl.muestraCategoriaEnCampos();
+                    }
+            );
+        }
+    }
+
+    public void crearCategoria(ActionEvent actionEvent) throws IOException {
+
+        VistaUtil.mostrarVentanaModal(
+                "/com/seminario/siglo21/sistemapeluqueria/DialogoCategoriaServicio.fxml",
+                "Gestión de Servicios"
+        );
+
+    }
+
+    public void eliminarCategoria(ActionEvent actionEvent) {
+        // Obtengo el id del producto que quiero eliminar
+        String nombreCategoriaEliminar = this.cmbCategoriaServicio.getValue();
+        CategoriaServicio categoriaEliminar = new CategoriaServicio();
+        categoriaEliminar.setearCategoriaNombre(nombreCategoriaEliminar);
+
+        //Verificio que efectivamente se haya seleccionado un servicio
+        if (categoriaEliminar == null) {
+            VistaUtil.mostrarAlerta("info",
+                    "Debe seleccionar una categoría para eliminar!");
+        } else {
+            if (categoriaEliminar.eliminarCategoria()) {
+                VistaUtil.mostrarAlerta("info",
+                        "La categoría se elimimió correctamente!");
+            }
+            cargarCartegorias();
+        }
     }
 }
 
