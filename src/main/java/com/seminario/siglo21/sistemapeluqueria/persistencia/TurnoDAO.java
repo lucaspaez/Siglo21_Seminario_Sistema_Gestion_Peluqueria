@@ -14,9 +14,7 @@ import java.util.List;
  */
 public class TurnoDAO {
 
-    // Consulta SQL para obtener los datos necesarios para el calendario
-    // Nota: El query debe calcular la duración total del turno.
-    // ⚠️ Consulta SQL CORREGIDA para manejar la relación N:M (Turno <-> TurnoServicioInterno <-> ServicioInterno)
+    // (La consulta SQL se mantiene igual, ya que usaba alias en español)
     private static final String SQL_SELECT_RANGE =
             "SELECT " +
                     "t.idTurno, t.fecha, t.hora AS hora_inicio, t.estado AS estado_turno, " +
@@ -33,26 +31,25 @@ public class TurnoDAO {
 
     /**
      * Obtiene una lista de turnos mapeados a TurnoCalendar dentro del rango de fechas especificado.
-     * @param startDate La fecha de inicio del rango (inclusivo).
-     * @param endDate La fecha de fin del rango (inclusivo).
+     * CAMBIO: Parámetros traducidos.
+     * @param fechaInicio La fecha de inicio del rango (inclusivo).
+     * @param fechaFin La fecha de fin del rango (inclusivo).
      * @return Lista de objetos TurnoCalendar.
      */
-    public List<TurnoCalendar> obtenerTurnosPorRango(LocalDate startDate, LocalDate endDate) throws SQLException {
+    public List<TurnoCalendar> obtenerTurnosPorRango(LocalDate fechaInicio, LocalDate fechaFin) throws SQLException {
 
         List<TurnoCalendar> turnos = new ArrayList<>();
 
-        //System.out.println(SQL_SELECT_RANGE);
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_RANGE)) {
 
-            // Establecer parámetros de fecha
-            stmt.setDate(1, Date.valueOf(startDate));
-            stmt.setDate(2, Date.valueOf(endDate));
+            // CAMBIO: Parámetros traducidos
+            stmt.setDate(1, Date.valueOf(fechaInicio));
+            stmt.setDate(2, Date.valueOf(fechaFin));
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
 
-                    // Calcular la hora de fin (la necesitamos para el Drag and Drop y para la vista)
                     LocalTime horaInicio = rs.getTime("hora_inicio").toLocalTime();
                     int duracionTotalMinutos = rs.getInt("duracion_total_minutos");
                     LocalTime horaFin = horaInicio.plusMinutes(duracionTotalMinutos);
@@ -64,8 +61,8 @@ public class TurnoDAO {
                             rs.getString("estado_turno"),
                             rs.getString("nombre_cliente"),
                             rs.getString("apellido_cliente"),
-                            duracionTotalMinutos, // Duración calculada
-                            rs.getString("servicios_descripcion") // Lista concatenada de servicios
+                            duracionTotalMinutos,
+                            rs.getString("servicios_descripcion")
                     );
                     turnos.add(turno);
                 }
@@ -76,21 +73,18 @@ public class TurnoDAO {
 
     /**
      * Método para actualizar la fecha y hora de un turno (usado por Drag and Drop).
-     * Nota: Ahora solo se actualiza fecha y hora, no hora_fin.
-     * La hora_fin se calcula dinámicamente en el DAO a partir de la hora de inicio y la duración total.
+     * CAMBIO: Parámetros traducidos.
      */
-    public void moverTurno(int idTurno, LocalDate newDate, LocalTime newTime) throws SQLException {
+    public void moverTurno(int idTurno, LocalDate nuevaFecha, LocalTime nuevaHora) throws SQLException {
 
-        // El DAO ahora solo necesita actualizar fecha y hora.
-        // La duración total debe ser obtenida primero si es necesaria.
-        // Si la columna en la tabla Turno se llama solo 'hora', ajustamos el UPDATE:
         final String SQL = "UPDATE Turno SET fecha = ?, hora = ? WHERE idTurno = ?";
 
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement stmt = conn.prepareStatement(SQL)) {
 
-            stmt.setDate(1, Date.valueOf(newDate));
-            stmt.setTime(2, Time.valueOf(newTime));
+            // CAMBIO: Parámetros traducidos
+            stmt.setDate(1, Date.valueOf(nuevaFecha));
+            stmt.setTime(2, Time.valueOf(nuevaHora));
             stmt.setInt(3, idTurno);
 
             int affectedRows = stmt.executeUpdate();

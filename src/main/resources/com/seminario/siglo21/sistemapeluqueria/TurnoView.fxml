@@ -29,27 +29,24 @@
 
             <HBox alignment="CENTER_RIGHT" spacing="5">
 
-                <ToggleButton fx:id="btnDayView" onAction="#handleChangeView" selected="true" text="Día" userData="DAY">
-               <toggleGroup>
-                  <ToggleGroup fx:id="viewToggleGroup" />
-               </toggleGroup></ToggleButton>
+                <ToggleButton fx:id="btnDayView" onAction="#handleChangeView" selected="true" text="Día" userData="DIA">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="viewToggleGroup" />
+                    </toggleGroup>
+                </ToggleButton>
 
-                <ToggleButton fx:id="btnWeekView" onAction="#handleChangeView" text="Semana" toggleGroup="$viewToggleGroup" userData="WEEK" />
+                <ToggleButton fx:id="btnWeekView" onAction="#handleChangeView" text="Semana" toggleGroup="$viewToggleGroup" userData="SEMANA" />
             </HBox>
         </HBox>
     </top>
 
     <center>
         <ScrollPane fx:id="calendarScrollPane" fitToWidth="true" hbarPolicy="NEVER">
-
             <StackPane fx:id="calendarStackPane">
-
                 <GridPane fx:id="calendarGrid" gridLinesVisible="false" styleClass="calendar-grid">
-
                     <columnConstraints>
                         <ColumnConstraints halignment="RIGHT" maxWidth="80" minWidth="80" />
                     </columnConstraints>
-
                 </GridPane>
             </StackPane>
         </ScrollPane>
@@ -59,15 +56,11 @@
         <VBox minWidth="200" spacing="10" styleClass="sidebar">
             <Label styleClass="sidebar-title" text="Gestión Rápida" />
             <Button maxWidth="Infinity" onAction="#handleNewAppointment" text="➕ Nuevo Turno" />
-
             <Separator />
-
             <Label styleClass="sidebar-title" text="Filtros" />
             <CheckBox fx:id="chkShowCompleted" onAction="#loadAppointments" selected="false" text="Mostrar Realizados" />
             <CheckBox fx:id="chkShowCancelled" onAction="#loadAppointments" selected="false" text="Mostrar Cancelados" />
-
             <Separator />
-
             <Label styleClass="sidebar-title" text="Empleado" />
             <ComboBox fx:id="employeeFilterCombo" promptText="Estilista Principal" />
         </VBox>

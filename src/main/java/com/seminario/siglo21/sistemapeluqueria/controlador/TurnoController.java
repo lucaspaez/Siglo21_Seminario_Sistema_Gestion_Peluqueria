@@ -2,6 +2,7 @@ package com.seminario.siglo21.sistemapeluqueria.controlador;
 
 import com.seminario.siglo21.sistemapeluqueria.modelo.TurnoCalendar;
 import com.seminario.siglo21.sistemapeluqueria.persistencia.TurnoDAO;
+import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import java.sql.SQLException;
@@ -32,10 +35,14 @@ import java.sql.SQLException;
 public class TurnoController implements Initializable {
 
     // Constantes de configuración
-    private static final LocalTime START_TIME = LocalTime.of(8, 0); // Inicio de la jornada
-    private static final LocalTime END_TIME = LocalTime.of(20, 0);  // Fin de la jornada
-    private static final int TIME_INTERVAL_MINUTES = 30;           // Intervalo de la cuadrícula
-    private static final double ROW_HEIGHT = 40.0;                 // Altura en píxeles de una fila de 30 min
+    private static final LocalTime HORA_INICIO = LocalTime.of(8, 0); // Inicio de la jornada
+    private static final LocalTime HORA_FIN = LocalTime.of(20, 0);  // Fin de la jornada
+    private static final int INTERVALO_MINUTOS = 30;           // Intervalo de la cuadrícula
+    private static final double ALTO_FILA = 40.0;                 // Altura en píxeles de una fila de 30 min
+
+    // CONSTANTE NUEVA PARA TRADUCIR
+    private static final DateTimeFormatter FORMATO_DIA_SEMANA =
+            DateTimeFormatter.ofPattern("EEEE", new Locale("es", "AR"));
 
     // Propiedades FXML
     @FXML private DatePicker datePicker;
@@ -49,19 +56,22 @@ public class TurnoController implements Initializable {
     @FXML private CheckBox chkShowCancelled;
 
     // Estado del Controlador
-    private ObjectProperty<LocalDate> currentDate = new SimpleObjectProperty<>(LocalDate.now());
-    private String currentView = "DAY"; // Por defecto
-    private ObservableList<TurnoCalendar> currentAppointments = FXCollections.observableArrayList();
+    private ObjectProperty<LocalDate> fechaActual = new SimpleObjectProperty<>(LocalDate.now());
+
+    // CAMBIO: Variable y valor por defecto traducidos
+    private String vistaActual = "DIA"; // Por defecto
+
+    private ObservableList<TurnoCalendar> turnosActuales = FXCollections.observableArrayList();
 
     private TurnoDAO turnoDAO = new TurnoDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Enlazar el DatePicker a la propiedad del controlador
-        datePicker.valueProperty().bindBidirectional(currentDate);
+        datePicker.valueProperty().bindBidirectional(fechaActual);
 
         // Listener para la fecha: Cuando cambia la fecha, recargar la vista
-        currentDate.addListener((obs, oldDate, newDate) -> {
+        fechaActual.addListener((obs, oldDate, newDate) -> {
             drawCalendarGrid();
             loadAppointments();
         });
@@ -75,36 +85,39 @@ public class TurnoController implements Initializable {
 
     @FXML
     private void handlePreviousDate() {
-        if (currentView.equals("DAY")) {
-            currentDate.set(currentDate.get().minusDays(1));
-        } else if (currentView.equals("WEEK")) {
-            currentDate.set(currentDate.get().minusWeeks(1));
+        // CAMBIO: Comparación con valores en español
+        if (vistaActual.equals("DIA")) {
+            fechaActual.set(fechaActual.get().minusDays(1));
+        } else if (vistaActual.equals("SEMANA")) {
+            fechaActual.set(fechaActual.get().minusWeeks(1));
         }
     }
 
     @FXML
     private void handleNextDate() {
-        if (currentView.equals("DAY")) {
-            currentDate.set(currentDate.get().plusDays(1));
-        } else if (currentView.equals("WEEK")) {
-            currentDate.set(currentDate.get().plusWeeks(1));
+        // CAMBIO: Comparación con valores en español
+        if (vistaActual.equals("DIA")) {
+            fechaActual.set(fechaActual.get().plusDays(1));
+        } else if (vistaActual.equals("SEMANA")) {
+            fechaActual.set(fechaActual.get().plusWeeks(1));
         }
     }
 
     @FXML
     private void handleDateSelection() {
-        // El listener en currentDate ya maneja la recarga.
+        // El listener en fechaActual ya maneja la recarga.
     }
 
     @FXML
     private void handleChangeView(javafx.event.ActionEvent event) {
         ToggleButton selected = (ToggleButton) viewToggleGroup.getSelectedToggle();
         if (selected != null) {
-            currentView = (String) selected.getUserData();
+            // CAMBIO: Se obtiene el userData en español ("DIA" o "SEMANA")
+            vistaActual = (String) selected.getUserData();
         } else {
             // Asegurar que siempre haya una vista seleccionada
             btnDayView.setSelected(true);
-            currentView = "DAY";
+            vistaActual = "DIA";
         }
         drawCalendarGrid();
         loadAppointments();
@@ -142,10 +155,10 @@ public class TurnoController implements Initializable {
 
         // 2. Dibuja las filas de tiempo y los marcadores de hora (Columna 0)
         int row = 1;
-        LocalTime currentTime = START_TIME;
-        while (currentTime.isBefore(END_TIME) || currentTime.equals(END_TIME)) {
+        LocalTime currentTime = HORA_INICIO;
+        while (currentTime.isBefore(HORA_FIN) || currentTime.equals(HORA_FIN)) {
             // Restricción de Fila
-            RowConstraints rowConstraints = new RowConstraints(ROW_HEIGHT);
+            RowConstraints rowConstraints = new RowConstraints(ALTO_FILA);
             calendarGrid.getRowConstraints().add(rowConstraints);
 
             // Marcador de Hora (Columna 0)
@@ -157,7 +170,7 @@ public class TurnoController implements Initializable {
             // Agregar listeners de DragOver y DragDropped a todas las celdas (para el Drag and Drop)
             addDropTargetToRow(row, datesToShow.size());
 
-            currentTime = currentTime.plusMinutes(TIME_INTERVAL_MINUTES);
+            currentTime = currentTime.plusMinutes(INTERVALO_MINUTOS);
             row++;
         }
 
@@ -172,7 +185,7 @@ public class TurnoController implements Initializable {
         header.setAlignment(javafx.geometry.Pos.CENTER);
         header.getStyleClass().add("day-header");
 
-        Label dayName = new Label(date.getDayOfWeek().toString());
+        Label dayName = new Label(date.format(FORMATO_DIA_SEMANA).toUpperCase());
         dayName.setStyle("-fx-font-weight: bold;");
 
         Label dayNum = new Label(date.format(DateTimeFormatter.ofPattern("dd/MM")));
@@ -186,11 +199,12 @@ public class TurnoController implements Initializable {
      */
     private List<LocalDate> getDatesForCurrentView() {
         List<LocalDate> dates = new ArrayList<>();
-        if (currentView.equals("DAY")) {
-            dates.add(currentDate.get());
-        } else if (currentView.equals("WEEK")) {
+        // CAMBIO: Comparación con valores en español
+        if (vistaActual.equals("DIA")) {
+            dates.add(fechaActual.get());
+        } else if (vistaActual.equals("SEMANA")) {
             // Empieza en Lunes
-            LocalDate startOfWeek = currentDate.get().with(DayOfWeek.MONDAY);
+            LocalDate startOfWeek = fechaActual.get().with(DayOfWeek.MONDAY);
             for (int i = 0; i < 7; i++) {
                 dates.add(startOfWeek.plusDays(i));
             }
@@ -207,9 +221,10 @@ public class TurnoController implements Initializable {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd 'de' MMM");
         String labelText;
 
-        if (currentView.equals("DAY")) {
+        // CAMBIO: Comparación con valores en español
+        if (vistaActual.equals("DIA")) {
             labelText = datesToShow.get(0).format(DateTimeFormatter.ofPattern("EEEE, dd 'de' MMMM yyyy"));
-        } else { // WEEK
+        } else { // SEMANA
             LocalDate start = datesToShow.get(0);
             LocalDate end = datesToShow.get(datesToShow.size() - 1);
             labelText = "Semana del " + start.format(dtf) + " al " + end.format(dtf);
@@ -219,26 +234,12 @@ public class TurnoController implements Initializable {
 
     // --- Lógica de Carga y Renderizado de Turnos ---
 
-    /**
-     * ⚠️ SIMULACIÓN de la carga de Turnos.
-     * En producción, esta función llamaría a TurnoDAO.obtenerTurnosPorRango().
-     */
-    // --- Lógica de Carga y Renderizado de Turnos ---
-
     @FXML
-    private void loadAppointments() {
+    public void loadAppointments() {
         // Limpiar turnos viejos de la cuadrícula
+        // Este filtro solo borra los VBox de turnos (que tienen este estilo).
         List<Node> nodesToRemove = calendarGrid.getChildren().stream()
-                // ⚠️ CORRECCIÓN: Primero verificar si los índices son NULOS
-                .filter(node -> {
-                    Integer col = GridPane.getColumnIndex(node);
-                    Integer row = GridPane.getRowIndex(node);
-
-                    // Asegurarse de que ambos índices no son nulos y que no son parte de los encabezados (Col 0 o Row 0)
-                    // Columna 0 = Horas
-                    // Fila 0 = Encabezados de Días
-                    return col != null && row != null && col.intValue() > 0 && row.intValue() > 0;
-                })
+                .filter(node -> node.getStyleClass().contains("appointment-block"))
                 .toList();
 
         calendarGrid.getChildren().removeAll(nodesToRemove);
@@ -260,9 +261,7 @@ public class TurnoController implements Initializable {
             }
 
         } catch (SQLException e) {
-            // Manejo de errores de base de datos
             System.err.println("Error al cargar turnos desde la base de datos.");
-            // ⚠️ Aquí puedes mostrar una alerta al usuario
             e.printStackTrace();
         }
     }
@@ -306,15 +305,15 @@ public class TurnoController implements Initializable {
      * Calcula el índice de fila inicial basado en la hora.
      */
     private int calculateRowIndex(LocalTime time) {
-        long minutesFromStart = START_TIME.until(time, java.time.temporal.ChronoUnit.MINUTES);
-        return (int) (minutesFromStart / TIME_INTERVAL_MINUTES) + 1; // +1 por la fila 0 de encabezado
+        long minutesFromStart = HORA_INICIO.until(time, java.time.temporal.ChronoUnit.MINUTES);
+        return (int) (minutesFromStart / INTERVALO_MINUTOS) + 1; // +1 por la fila 0 de encabezado
     }
 
     /**
      * Calcula cuántas filas (rowSpan) ocupa la cita.
      */
     private int calculateRowSpan(int durationMinutes) {
-        return Math.max(1, (int) Math.ceil((double) durationMinutes / TIME_INTERVAL_MINUTES));
+        return Math.max(1, (int) Math.ceil((double) durationMinutes / INTERVALO_MINUTOS));
     }
 
     /**
@@ -345,7 +344,7 @@ public class TurnoController implements Initializable {
         return pane;
     }
 
-    // --- Drag and Drop Logic ---
+    // --- Lógica de Arrastrar y Soltar (Drag and Drop) ---
 
     /**
      * Configura el bloque de cita como fuente de arrastre (Drag Source).
@@ -355,7 +354,6 @@ public class TurnoController implements Initializable {
             Dragboard db = appointmentPane.startDragAndDrop(TransferMode.MOVE);
             ClipboardContent content = new ClipboardContent();
 
-            // ⚠️ ENVIAMOS EL ID Y LA DURACIÓN EN UNA CADENA SEPARADA POR COMA
             String dragData = String.valueOf(turno.getIdTurno()) + "," + String.valueOf(turno.getDuracionTotalMinutos());
             content.putString(dragData);
 
@@ -370,37 +368,46 @@ public class TurnoController implements Initializable {
     private void addDropTargetToRow(int row, int numDayColumns) {
         for (int col = 1; col <= numDayColumns; col++) {
             Pane dropTarget = new Pane();
+
+            // Hacemos que el panel sea transparente (no captura clics)
+            // pero sí esté presente para el D&D.
+            //dropTarget.setPickOnBounds(false);
+
             calendarGrid.add(dropTarget, col, row);
 
-            // ... (DragOver se mantiene igual) ...
+            // Este manejador es ESENCIAL. Es el "saludo" que le
+            // dice al sistema que esta celda ACEPTA un 'Drop'.
+            dropTarget.setOnDragOver(event -> {
+                // Acepta el gesto de 'MOVER' si el origen no es él mismo
+                if (event.getGestureSource() != dropTarget && event.getDragboard().hasString()) {
+                    event.acceptTransferModes(TransferMode.MOVE);
+                }
+                event.consume();
+            });
 
             dropTarget.setOnDragDropped(event -> {
                 Dragboard db = event.getDragboard();
                 boolean success = false;
 
                 if (db.hasString()) {
-                    // ⚠️ RECUPERAR ID Y DURACIÓN DEL CLIPBOARD
                     String[] data = db.getString().split(",");
                     int turnoId = Integer.parseInt(data[0]);
-                    // int durationMinutes = Integer.parseInt(data[1]); // Ya no se necesita si el DAO calcula la hora fin
 
                     int newRow = GridPane.getRowIndex(dropTarget);
                     int newCol = GridPane.getColumnIndex(dropTarget);
 
                     LocalDate newDate = getDatesForCurrentView().get(newCol - 1);
-                    LocalTime newTime = START_TIME.plusMinutes((newRow - 1) * TIME_INTERVAL_MINUTES);
+                    LocalTime newTime = HORA_INICIO.plusMinutes((newRow - 1) * INTERVALO_MINUTOS);
 
                     try {
-                        // 📞 LLAMADA ACTUALIZADA AL DAO (sólo requiere ID, fecha y nueva hora de inicio)
                         turnoDAO.moverTurno(turnoId, newDate, newTime);
                         System.out.println("Turno " + turnoId + " movido exitosamente a: " + newDate + " " + newTime);
                         success = true;
                     } catch (SQLException e) {
                         System.err.println("Error al mover el turno en la DB: " + e.getMessage());
-                        // Muestra un error al usuario
                     }
 
-                    loadAppointments();
+                    loadAppointments(); // Recargar la vista
                 }
                 event.setDropCompleted(success);
                 event.consume();
@@ -411,14 +418,18 @@ public class TurnoController implements Initializable {
     // --- Lógica de CRUD (Event Handlers) ---
 
     @FXML
-    private void handleNewAppointment() {
+    private void handleNewAppointment() throws IOException {
         System.out.println("Abrir formulario para nuevo turno...");
-        // Lógica para abrir una nueva ventana modal de creación de turno
+
+        VistaUtil.mostrarVentanaModal(
+                "/com/seminario/siglo21/sistemapeluqueria/DialogoTurno.fxml",
+                "Agendar un turno"
+        );
+
     }
 
     private void handleEditAppointment(TurnoCalendar turno) {
         System.out.println("Abrir formulario para editar turno: " + turno.getIdTurno());
         // Lógica para abrir una nueva ventana modal con los datos del turno
     }
-
 }
