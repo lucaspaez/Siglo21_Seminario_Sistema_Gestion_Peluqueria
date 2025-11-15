@@ -281,5 +281,9 @@ public class ServicioInterno {
 
     }
 
+    @Override
+    public String toString() {
+        return getNombreServicio(); // Esto es lo que se mostrará en el ComboBox
+    }
 }
 

@@ -230,4 +230,9 @@ public class Cliente extends Persona {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return getNombre() + " "+ getApellido(); // Esto es lo que se mostrará en el ComboBox
+    }
+
 }

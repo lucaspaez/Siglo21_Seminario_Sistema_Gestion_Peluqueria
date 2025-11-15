@@ -78,6 +78,7 @@ public class DialogoProductoController implements Initializable {
                 .collect(Collectors.toList());
         listaMarcas.setAll(nombres);
         cmbMarca.setItems(listaMarcas);
+
     }
 
     private void cargarProveedores() {

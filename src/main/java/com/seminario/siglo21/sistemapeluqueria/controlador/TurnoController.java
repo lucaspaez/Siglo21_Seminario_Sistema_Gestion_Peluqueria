@@ -418,7 +418,7 @@ public class TurnoController implements Initializable {
     // --- Lógica de CRUD (Event Handlers) ---
 
     @FXML
-    private void handleNewAppointment() throws IOException {
+    public void handleNewAppointment() throws IOException {
         System.out.println("Abrir formulario para nuevo turno...");
 
         VistaUtil.mostrarVentanaModal(
