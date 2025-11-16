@@ -32,6 +32,8 @@ public class DialogoTurnoController implements Initializable {
     @FXML
     public ComboBox<String> cmbEstado;
     @FXML
+    public TextArea txtObservaciones;
+    @FXML
     private ComboBox<Cliente> cmbCliente;
     @FXML
     private ComboBox<Empleado> cmbEmpleado;
@@ -150,6 +152,7 @@ public class DialogoTurnoController implements Initializable {
         turnoFinal.setHora(cmbHora.getValue());
         turnoFinal.setIdCliente(cmbCliente.getValue().getIdCliente());
         turnoFinal.setIdEmpleado(cmbEmpleado.getValue().getIdEmpleado());
+        turnoFinal.setObservaciones(txtObservaciones.getText());
 
         // Extraigo los IDs de los servicios seleccionados
         serviciosSeleccionados = lvServicios.getSelectionModel().getSelectedItems();
@@ -245,6 +248,8 @@ public class DialogoTurnoController implements Initializable {
 
         // 4. Seleccionamos el estado actual en el ComboBox
         cmbEstado.setValue(turno.getEstado());
+        // Se cargan las observaciones
+        txtObservaciones.setText(turno.getObservaciones());
 
         // 5. Seleccionar los Servicios
         if (turno.getIdServiciosAsociados() != null) {

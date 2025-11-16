@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="600" prefWidth="800" spacing="10" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.FichaClienteController">
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+   <HBox prefHeight="52.0" prefWidth="780.0" styleClass="top-bar">
+      <children>
+          <Label fx:id="lblNombreCliente" prefHeight="27.0" prefWidth="467.0" styleClass="titulo-app" text="Ficha del Cliente: [Nombre]" />
+          <Label fx:id="lblDetallesCliente" prefHeight="27.0" prefWidth="392.0" styleClass="titulo-app" text="DNI: [DNI] - Teléfono: [Teléfono]" />
+      </children>
+   </HBox>
+    <Separator />
+
+    <TableView fx:id="tvHistorial" styleClass="md-table" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colFecha" prefWidth="78.0" text="Fecha" />
+            <TableColumn fx:id="colEstilista" prefWidth="107.0" text="Estilista" />
+            <TableColumn fx:id="colServicios" prefWidth="201.0" text="Servicios Realizados" />
+            <TableColumn fx:id="colEstado" prefWidth="92.0" text="Estado" />
+            <TableColumn fx:id="colObservaciones" prefWidth="301.0" text="Observaciones" />
+        </columns>
+    </TableView>
+</VBox>

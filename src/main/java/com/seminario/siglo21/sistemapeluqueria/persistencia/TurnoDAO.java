@@ -2,6 +2,7 @@ package com.seminario.siglo21.sistemapeluqueria.persistencia;
 
 import com.seminario.siglo21.sistemapeluqueria.modelo.Turno;
 import com.seminario.siglo21.sistemapeluqueria.modelo.TurnoCalendar;
+import com.seminario.siglo21.sistemapeluqueria.modelo.TurnoHistorialDTO;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -32,17 +33,17 @@ public class TurnoDAO {
 
     // Constantes SQL
     private static final String SQL_INSERT_TURNO =
-            "INSERT INTO Turno (fecha, hora, estado, idCliente, idEmpleado) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO Turno (fecha, hora, estado, idCliente, idEmpleado, observaciones) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String SQL_INSERT_SERVICIO_TURNO =
             "INSERT INTO TurnoServicioInterno (idTurno, idServicioInterno, cantidad) VALUES (?, ?, 1)"; // Cantidad siempre 1 por defecto
 
     private static final String SQL_SELECT_BY_ID =
-            "SELECT idTurno, fecha, hora, estado, idCliente, idEmpleado FROM Turno WHERE idTurno = ?";
+            "SELECT idTurno, fecha, hora, estado, idCliente, idEmpleado, observaciones FROM Turno WHERE idTurno = ?";
     private static final String SQL_SELECT_SERVICIOS_IDS =
             "SELECT idServicioInterno FROM TurnoServicioInterno WHERE idTurno = ?";
     // Nuevo SQL para la actualización del turno principal
     private static final String SQL_UPDATE_TURNO =
-            "UPDATE Turno SET fecha = ?, hora = ?, estado = ?, idCliente = ?, idEmpleado = ? WHERE idTurno = ?";
+            "UPDATE Turno SET fecha = ?, hora = ?, estado = ?, idCliente = ?, idEmpleado = ?, observaciones = ? WHERE idTurno = ?";
     // SQL para eliminar servicios antiguos antes de insertar los nuevos
     private static final String SQL_DELETE_SERVICIO_TURNO =
             "DELETE FROM TurnoServicioInterno WHERE idTurno = ?";
@@ -215,6 +216,7 @@ public class TurnoDAO {
                 stmtTurno.setString(3, turno.getEstado());
                 stmtTurno.setInt(4, turno.getIdCliente());
                 stmtTurno.setInt(5, turno.getIdEmpleado());
+                stmtTurno.setString(6, turno.getObservaciones());
 
                 int affectedRows = stmtTurno.executeUpdate();
 
@@ -307,7 +309,8 @@ public class TurnoDAO {
                             rs.getTime("hora").toLocalTime(),
                             rs.getString("estado"),
                             rs.getInt("idCliente"),
-                            rs.getInt("idEmpleado")
+                            rs.getInt("idEmpleado"),
+                            rs.getString("observaciones")
                     );
 
                     // 2. Obtener los IDs de servicios asociados
@@ -335,6 +338,7 @@ public class TurnoDAO {
         }
         return idServicios;
     }
+
     public boolean actualizarTurno(Turno turno, List<Integer> idServiciosActualizados) throws SQLException {
 
         // 1. Validaciones
@@ -360,7 +364,8 @@ public class TurnoDAO {
                 stmtTurno.setString(3, turno.getEstado()); // Permitimos actualizar el estado (ej: a REALIZADO)
                 stmtTurno.setInt(4, turno.getIdCliente());
                 stmtTurno.setInt(5, turno.getIdEmpleado());
-                stmtTurno.setInt(6, turno.getIdTurno()); // WHERE clause
+                stmtTurno.setString(6, turno.getObservaciones());
+                stmtTurno.setInt(7, turno.getIdTurno()); // WHERE clause
 
                 int affectedRows = stmtTurno.executeUpdate();
 
@@ -418,5 +423,30 @@ public class TurnoDAO {
                 }
             }
         }
+    }
+
+    public List<TurnoHistorialDTO> getHistorialPorCliente(int idCliente) throws SQLException {
+        List<TurnoHistorialDTO> historial = new ArrayList<>();
+        String sql = "SELECT fecha, estilista, serviciosRealizados, estado, observaciones " +
+                "FROM vista_historial_cliente WHERE idCliente = ?";
+
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idCliente);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    historial.add(new TurnoHistorialDTO(
+                            rs.getDate("fecha").toLocalDate(),
+                            rs.getString("estilista"),
+                            rs.getString("serviciosRealizados"),
+                            rs.getString("estado"),
+                            rs.getString("observaciones")
+                    ));
+                }
+            }
+        }
+        return historial;
     }
 }

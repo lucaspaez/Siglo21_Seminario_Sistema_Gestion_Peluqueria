@@ -31,6 +31,9 @@
                 <Label text="Servicios a Realizar:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <ListView fx:id="lvServicios" prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
+                <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                <TextArea fx:id="txtObservaciones" prefHeight="100.0" prefWidth="250.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
             </children>
 
             <columnConstraints>

@@ -141,4 +141,27 @@ public class GestionarClientesController implements Initializable {
                 "Sistema de Gestión - Principal");
 
     }
+
+    @FXML
+    public void verFichaClente(ActionEvent actionEvent) {
+
+        Cliente clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem();
+        if (clienteSeleccionado == null) {
+            VistaUtil.mostrarAlerta("error", "Debe seleccionar un cliente.");
+            return;
+        }
+
+        try {
+            VistaUtil.abrirVentanaYObtenerControlador(
+                    "/com/seminario/siglo21/sistemapeluqueria/FichaClienteView.fxml", // Ruta al nuevo FXML
+                    "Ficha de Cliente",
+                    (FichaClienteController controller) -> {
+                        controller.initData(clienteSeleccionado);
+                    }
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

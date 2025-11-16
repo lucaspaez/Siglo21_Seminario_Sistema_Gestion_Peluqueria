@@ -18,27 +18,30 @@ public class Turno {
     // Claves Foráneas (FK)
     private int idCliente;
     private int idEmpleado;
+    private String observaciones;
 
     private List<Integer> idServiciosAsociados;
 
     // --- CONSTRUCTOR ---
 
-    public Turno(int idTurno, LocalDate fecha, LocalTime hora, String estado, int idCliente, int idEmpleado) {
+    public Turno(int idTurno, LocalDate fecha, LocalTime hora, String estado, int idCliente, int idEmpleado, String observaciones) {
         this.idTurno = idTurno;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
+        this.observaciones = observaciones;
     }
 
     // Constructor sin id (para la creación de nuevos turnos)
-    public Turno(LocalDate fecha, LocalTime hora, String estado, int idCliente, int idEmpleado) {
+    public Turno(LocalDate fecha, LocalTime hora, String estado, int idCliente, int idEmpleado, String observaciones) {
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
+        this.observaciones = observaciones;
     }
 
     // Constructor vacío
@@ -92,6 +95,14 @@ public class Turno {
 
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public List<Integer> getIdServiciosAsociados() {
