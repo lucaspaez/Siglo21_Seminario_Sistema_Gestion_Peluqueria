@@ -25,6 +25,8 @@ public class VistaUtil {
         stage.setTitle(titulo);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root));
+
+        stage.centerOnScreen();
         stage.showAndWait();
     }
 
@@ -37,6 +39,8 @@ public class VistaUtil {
         Scene scene = new Scene(root);
         stage.setTitle(titulo);
         stage.setScene(scene);
+
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -58,6 +62,8 @@ public class VistaUtil {
         stage.setTitle(titulo);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(root));
+
+        stage.centerOnScreen();
         stage.showAndWait();
 
         return controller;

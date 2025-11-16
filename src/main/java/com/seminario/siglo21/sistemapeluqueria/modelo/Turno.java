@@ -2,6 +2,7 @@ package com.seminario.siglo21.sistemapeluqueria.modelo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * Entidad de la tabla Turno.
@@ -17,6 +18,8 @@ public class Turno {
     // Claves Foráneas (FK)
     private int idCliente;
     private int idEmpleado;
+
+    private List<Integer> idServiciosAsociados;
 
     // --- CONSTRUCTOR ---
 
@@ -89,5 +92,13 @@ public class Turno {
 
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
+    }
+
+    public List<Integer> getIdServiciosAsociados() {
+        return idServiciosAsociados;
+    }
+
+    public void setIdServiciosAsociados(List<Integer> idServiciosAsociados) {
+        this.idServiciosAsociados = idServiciosAsociados;
     }
 }

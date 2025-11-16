@@ -1,5 +1,7 @@
 package com.seminario.siglo21.sistemapeluqueria.controlador;
 
+import com.seminario.siglo21.sistemapeluqueria.App;
+import com.seminario.siglo21.sistemapeluqueria.modelo.Turno;
 import com.seminario.siglo21.sistemapeluqueria.modelo.TurnoCalendar;
 import com.seminario.siglo21.sistemapeluqueria.persistencia.TurnoDAO;
 import com.seminario.siglo21.sistemapeluqueria.util.VistaUtil;
@@ -7,6 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
@@ -18,6 +21,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +47,10 @@ public class TurnoController implements Initializable {
     // CONSTANTE NUEVA PARA TRADUCIR
     private static final DateTimeFormatter FORMATO_DIA_SEMANA =
             DateTimeFormatter.ofPattern("EEEE", new Locale("es", "AR"));
+    public Button btnVolver;
+    public BorderPane mainContainer;
+    @FXML
+    public CheckBox chkShowConfirmed;
 
     // Propiedades FXML
     @FXML private DatePicker datePicker;
@@ -58,8 +66,7 @@ public class TurnoController implements Initializable {
     // Estado del Controlador
     private ObjectProperty<LocalDate> fechaActual = new SimpleObjectProperty<>(LocalDate.now());
 
-    // CAMBIO: Variable y valor por defecto traducidos
-    private String vistaActual = "DIA"; // Por defecto
+    private String vistaActual = "SEMANA"; // Por defecto, inicia en SEMANA
 
     private ObservableList<TurnoCalendar> turnosActuales = FXCollections.observableArrayList();
 
@@ -69,6 +76,10 @@ public class TurnoController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Enlazar el DatePicker a la propiedad del controlador
         datePicker.valueProperty().bindBidirectional(fechaActual);
+
+        if (btnWeekView != null) {
+            btnWeekView.setSelected(true);
+        }
 
         // Listener para la fecha: Cuando cambia la fecha, recargar la vista
         fechaActual.addListener((obs, oldDate, newDate) -> {
@@ -112,7 +123,7 @@ public class TurnoController implements Initializable {
     private void handleChangeView(javafx.event.ActionEvent event) {
         ToggleButton selected = (ToggleButton) viewToggleGroup.getSelectedToggle();
         if (selected != null) {
-            // CAMBIO: Se obtiene el userData en español ("DIA" o "SEMANA")
+            // Se obtiene el userData en español ("DIA" o "SEMANA")
             vistaActual = (String) selected.getUserData();
         } else {
             // Asegurar que siempre haya una vista seleccionada
@@ -151,6 +162,10 @@ public class TurnoController implements Initializable {
             // Agregar el encabezado del día
             VBox header = createDayHeader(datesToShow.get(i));
             calendarGrid.add(header, i + 1, 0);
+            // Aseguramos la alineación vertical de los encabezados (Fila 0)
+            GridPane.setValignment(header, VPos.CENTER);
+            // También es útil asegurar la alineación horizontal:
+            GridPane.setHalignment(header, HPos.CENTER);
         }
 
         // 2. Dibuja las filas de tiempo y los marcadores de hora (Columna 0)
@@ -166,6 +181,9 @@ public class TurnoController implements Initializable {
             timeLabel.getStyleClass().add("time-label");
             calendarGrid.add(timeLabel, 0, row);
             GridPane.setValignment(timeLabel, VPos.TOP); // Alineación para que coincida con la línea
+
+            // Esto es común para alinear el texto de la hora con la línea superior de la celda.
+            timeLabel.setStyle("-fx-padding: 10 5 0 0;"); // Ajusta el padding superior a un valor negativo
 
             // Agregar listeners de DragOver y DragDropped a todas las celdas (para el Drag and Drop)
             addDropTargetToRow(row, datesToShow.size());
@@ -184,6 +202,10 @@ public class TurnoController implements Initializable {
         VBox header = new VBox(5);
         header.setAlignment(javafx.geometry.Pos.CENTER);
         header.getStyleClass().add("day-header");
+
+        //Agregar un padding superior e inferior de 5px ⭐️
+        // Esto aumenta la altura total del encabezado y empuja la grilla de turnos hacia abajo.
+        header.setPadding(new javafx.geometry.Insets(5, 0, 5, 0));
 
         Label dayName = new Label(date.format(FORMATO_DIA_SEMANA).toUpperCase());
         dayName.setStyle("-fx-font-weight: bold;");
@@ -244,6 +266,12 @@ public class TurnoController implements Initializable {
 
         calendarGrid.getChildren().removeAll(nodesToRemove);
 
+        boolean incluirCompletados = chkShowCompleted.isSelected();
+        boolean incluirCancelados = chkShowCancelled.isSelected();
+        boolean incluirConfirmados = chkShowConfirmed.isSelected();
+
+        System.out.println(incluirCancelados);
+
         // 1. Determinar el rango de fechas
         List<LocalDate> datesToShow = getDatesForCurrentView();
         if (datesToShow.isEmpty()) return;
@@ -252,8 +280,9 @@ public class TurnoController implements Initializable {
         LocalDate fechaFin = datesToShow.get(datesToShow.size() - 1);
 
         try {
-            // 2. 📞 LLAMADA REAL AL DAO
-            List<TurnoCalendar> turnos = turnoDAO.obtenerTurnosPorRango(fechaInicio, fechaFin);
+            // 2. LLAMADA REAL AL DAO
+            List<TurnoCalendar> turnos = turnoDAO.obtenerTurnosPorRango(fechaInicio, fechaFin,
+                    incluirCompletados, incluirCancelados, incluirConfirmados);
 
             // 3. Renderiza cada turno
             for (TurnoCalendar turno : turnos) {
@@ -272,7 +301,8 @@ public class TurnoController implements Initializable {
     private void renderAppointment(TurnoCalendar turno, List<LocalDate> visibleDates) {
         // 1. Ocultar si el filtro está activo
         if ((turno.getEstado().equalsIgnoreCase("REALIZADO") && !chkShowCompleted.isSelected()) ||
-                (turno.getEstado().equalsIgnoreCase("CANCELADO") && !chkShowCancelled.isSelected())) {
+                (turno.getEstado().equalsIgnoreCase("CANCELADO") && !chkShowCancelled.isSelected()) ||
+                (turno.getEstado().equalsIgnoreCase("CONFIRMADO") && !chkShowConfirmed.isSelected())) {
             return;
         }
 
@@ -294,8 +324,33 @@ public class TurnoController implements Initializable {
         // 4. Crear el bloque visual (VBox con información)
         VBox appointmentPane = createAppointmentPane(turno);
 
+        //️ INICIO DE LÓGICA DE SOLAPAMIENTO
+        // Comprobar si ya existe un nodo en esta celda (solapamiento simple)
+        Node nodoExistente = getNodeFromGridPane(calendarGrid, colIndex, startRow);
+
+        if (nodoExistente != null) {
+            // ¡Hay un solapamiento!
+            // Aplicar estilo de solapado al bloque existente y al nuevo
+            nodoExistente.getStyleClass().add("overlapped-turno");
+            appointmentPane.getStyleClass().add("overlapped-turno");
+
+            // Opcional: Si el nodo existente no es modificable,
+            // podríamos ajustar la lógica para que el nuevo "empuje" al viejo
+            // (Pero por ahora, solo los marcamos visualmente).
+        }
+        //️ FIN DE LÓGICA DE SOLAPAMIENTO
+
         // 5. Agregar el bloque al GridPane
         calendarGrid.add(appointmentPane, colIndex, startRow, 1, rowSpan);
+
+        // Asegurar alineación vertical al TOP
+        // Esto asegura que el bloque se ancle en la parte superior de la celda.
+        GridPane.setValignment(appointmentPane, VPos.TOP);
+
+        // Aplicar un pequeño margen superior
+        // Esto empuja el bloque 3 píxeles hacia abajo dentro de su celda,
+        // alineándolo visualmente con la etiqueta de hora.
+        GridPane.setMargin(appointmentPane, new javafx.geometry.Insets(0, 0, 0, 0));
 
         // 6. Configurar Drag and Drop para el bloque (Permitir mover la cita)
         setupDragSource(appointmentPane, turno);
@@ -320,8 +375,12 @@ public class TurnoController implements Initializable {
      * Crea el VBox que representa visualmente el turno.
      */
     private VBox createAppointmentPane(TurnoCalendar turno) {
+        System.out.println(turno.getEstado() + "");
         VBox pane = new VBox(2);
         pane.getStyleClass().addAll("appointment-block", turno.getEstado().toLowerCase() + "-turno");
+
+        System.out.println(turno.getEstado() + "");
+        System.out.println(turno.getEstado().toLowerCase() + "-turno");
 
         // Información del turno
         Label timeLabel = new Label(turno.getHora().format(DateTimeFormatter.ofPattern("HH:mm")) + " (" + turno.getDuracionTotalMinutos() + " min)");
@@ -331,6 +390,18 @@ public class TurnoController implements Initializable {
         timeLabel.getStyleClass().add("appointment-time");
         clientLabel.getStyleClass().add("appointment-client");
         serviceText.getStyleClass().add("appointment-service");
+
+        // Acción de doble clic para editar (SOLO SI ES MODIFICABLE)
+        if (isTurnoModificable(turno.getEstado())) {
+            pane.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2) {
+                    handleEditAppointment(turno);
+                }
+            });
+        } else {
+            // Opcional: Cambiar el cursor para indicar que no es editable
+            pane.setStyle(pane.getStyle() + "-fx-cursor: default;");
+        }
 
         pane.getChildren().addAll(timeLabel, clientLabel, serviceText);
 
@@ -350,16 +421,18 @@ public class TurnoController implements Initializable {
      * Configura el bloque de cita como fuente de arrastre (Drag Source).
      */
     private void setupDragSource(VBox appointmentPane, TurnoCalendar turno) {
-        appointmentPane.setOnDragDetected(event -> {
-            Dragboard db = appointmentPane.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
+        if (isTurnoModificable(turno.getEstado())) {
+            appointmentPane.setOnDragDetected(event -> {
+                Dragboard db = appointmentPane.startDragAndDrop(TransferMode.MOVE);
+                ClipboardContent content = new ClipboardContent();
 
-            String dragData = String.valueOf(turno.getIdTurno()) + "," + String.valueOf(turno.getDuracionTotalMinutos());
-            content.putString(dragData);
+                String dragData = String.valueOf(turno.getIdTurno()) + "," + String.valueOf(turno.getDuracionTotalMinutos());
+                content.putString(dragData);
 
-            db.setContent(content);
-            event.consume();
-        });
+                db.setContent(content);
+                event.consume();
+            });
+        }
     }
 
     /**
@@ -368,6 +441,9 @@ public class TurnoController implements Initializable {
     private void addDropTargetToRow(int row, int numDayColumns) {
         for (int col = 1; col <= numDayColumns; col++) {
             Pane dropTarget = new Pane();
+
+            // Añadir una clase de estilo a la celda
+            dropTarget.getStyleClass().add("calendar-cell");
 
             // Hacemos que el panel sea transparente (no captura clics)
             // pero sí esté presente para el D&D.
@@ -419,7 +495,7 @@ public class TurnoController implements Initializable {
 
     @FXML
     public void handleNewAppointment() throws IOException {
-        System.out.println("Abrir formulario para nuevo turno...");
+        //System.out.println("Abrir formulario para nuevo turno...");
 
         VistaUtil.mostrarVentanaModal(
                 "/com/seminario/siglo21/sistemapeluqueria/DialogoTurno.fxml",
@@ -430,6 +506,74 @@ public class TurnoController implements Initializable {
 
     private void handleEditAppointment(TurnoCalendar turno) {
         System.out.println("Abrir formulario para editar turno: " + turno.getIdTurno());
-        // Lógica para abrir una nueva ventana modal con los datos del turno
+
+        try {
+            // 1. Obtengo la referencia al Stage principal
+            Stage currentStage = (Stage) mainContainer.getScene().getWindow();
+
+            // 2. Obtengo el Turno completo (incluyendo FKs: idCliente, idEmpleado)
+            Turno turnoCompleto = turnoDAO.getTurnoById(turno.getIdTurno());
+
+            if (turnoCompleto == null) {
+                VistaUtil.mostrarAlerta("error", "No se encontró el turno con ID: " + turno.getIdTurno());
+                return;
+            }
+
+            // 3. Abro la ventana modal y obtengo el controlador.
+            DialogoTurnoController dialogoTurnoController = VistaUtil.abrirVentanaYObtenerControlador(
+                    "/com/seminario/siglo21/sistemapeluqueria/DialogoTurno.fxml",
+                    "Editar Turno Existente",
+                    (DialogoTurnoController controller) -> {
+                        controller.setMainController(this); // Inyecta el controlador principal
+                        controller.initData(turnoCompleto); // Inyecta la data del turno a editar
+                    }
+            );
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista del formulario de turno: " + e.getMessage());
+            VistaUtil.mostrarAlerta("error", "No se pudo cargar el formulario de edición. " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error de DB al buscar el turno: " + e.getMessage());
+            VistaUtil.mostrarAlerta("error", "Error de base de datos al buscar los detalles del turno. " + e.getMessage());
+        }
+
+    }
+
+    public void volverMenuPrincipal(ActionEvent actionEvent) throws IOException {
+        // Volver al menu principal
+        VistaUtil.cambiarVista(App.getPrimaryStage(),
+                "/com/seminario/siglo21/sistemapeluqueria/MenuPrincipal.fxml",
+                "Sistema de Gestión - Principal");
+    }
+
+    //Método auxiliar para verificar si un turno puede ser modificado.
+    private boolean isTurnoModificable(String estado) {
+        if (estado == null) {
+            return true; // Si el estado es nulo, permitir modificación (comportamiento seguro)
+        }
+        // Convertimos a mayúsculas para ser consistentes
+        String estadoUpper = estado.toUpperCase();
+
+        // No se pueden modificar turnos realizados o cancelados
+        return !estadoUpper.equals("REALIZADO") && !estadoUpper.equals("CANCELADO");
+    }
+
+    // Busca un nodo en el GridPane en una celda específica.
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            // Asegurarse de que el nodo tenga las propiedades de columna/fila (evita nulos)
+            Integer nodeCol = GridPane.getColumnIndex(node);
+            Integer nodeRow = GridPane.getRowIndex(node);
+
+            if (nodeCol != null && nodeRow != null) {
+                if (nodeCol == col && nodeRow == row) {
+                    // Devolver solo si es un bloque de cita, no un panel de drop
+                    if (node.getStyleClass().contains("appointment-block")) {
+                        return node;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

@@ -91,11 +91,14 @@
 
 /* --- Cuadrícula del Calendario --- */
 
-.calendar-grid {
-    -fx-background-color: white;
-    -fx-grid-lines-visible: true;
-    -fx-border-color: #D6D1F0; /* Borde suave */
+/* --- Estilo para las celdas de la cuadrícula del calendario (el fondo) --- */
+.calendar-cell {
+    /* Dibuja un borde inferior y derecho para simular las líneas de la cuadrícula */
+    -fx-border-color: #E0E0E0; /* Un gris muy claro */
+    -fx-border-width: 0 1px 1px 0; /* Top Right Bottom Left */
 }
+
+
 
 .day-header {
     -fx-padding: 10 0 5 0;
@@ -176,4 +179,19 @@
     -fx-border-color: #D32F2F; /* Rojo Oscuro */
     -fx-text-fill: #555555;
     -fx-opacity: 0.8;
+}
+
+/* SOLAPADO: Indica un conflicto (Borde rojo intenso) */
+.overlapped-turno {
+    -fx-border-color: #B71C1C; /* Rojo muy oscuro e intenso */
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,0,0,0.5), 8, 0.5, 0, 0);
+}
+
+/* Lo traigo desde estilos.css */
+.btn-ghost {
+    -fx-background-color: transparent;
+    -fx-border-color: #D6D1F0;
+    -fx-border-radius: 8px;
+    -fx-padding: 8 14 8 14;
 }

@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox prefWidth="400.0" spacing="15.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.DialogoTurnoController">
+<VBox prefWidth="400.0" spacing="15.0" stylesheets="@estilos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.DialogoTurnoController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <children>
-        <Label text="Programar Nuevo Turno" />
+        <Label fx:id="lblTitulo" text="Programar Nuevo Turno" />
         <GridPane hgap="10.0" vgap="10.0">
             <children>
 
@@ -32,6 +24,9 @@
 
                 <Label text="Hora de Inicio:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
                 <ComboBox fx:id="cmbHora" prefWidth="250.0" promptText="Seleccionar hora..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                <Label text="Estado:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                <ComboBox fx:id="cmbEstado" prefWidth="250.0" promptText="Seleccionar estado..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
                 <Label text="Servicios a Realizar:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
                 <ListView fx:id="lvServicios" prefHeight="100.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
