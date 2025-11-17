@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefWidth="400.0" spacing="15.0" styleClass="form-container" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seminario.siglo21.sistemapeluqueria.controlador.DialogoEmpleadoController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <Label fx:id="lblTitulo" styleClass="form-title" text="Nuevo Empleado" />
+
+    <GridPane hgap="10.0" vgap="10.0">
+        <Label text="Nombre:" GridPane.rowIndex="0" />
+        <TextField fx:id="txtNombre" promptText="Nombre del empleado" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label text="Apellido:" GridPane.rowIndex="1" />
+        <TextField fx:id="txtApellido" promptText="Apellido del empleado" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="DNI:" GridPane.rowIndex="2" />
+        <TextField fx:id="txtDNI" promptText="Documento (sin puntos)" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="Activo:" GridPane.rowIndex="3" />
+        <CheckBox fx:id="chkActivo" selected="true" text="El empleado está activo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+        <columnConstraints>
+            <ColumnConstraints minWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+
+    <Label fx:id="lblError" styleClass="label-error" text="" />
+
+    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+        <Button onAction="#handleCancelar" styleClass="btn-secondary" text="Cancelar" />
+        <Button fx:id="btnGuardar" onAction="#handleGuardar" styleClass="btn-primary" text="Guardar" />
+    </HBox>
+   <stylesheets>
+      <URL value="@styles.css" />
+      <URL value="@estilos.css" />
+   </stylesheets>
+</VBox>

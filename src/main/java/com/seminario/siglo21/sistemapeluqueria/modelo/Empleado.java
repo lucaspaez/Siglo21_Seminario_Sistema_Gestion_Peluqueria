@@ -15,6 +15,7 @@ public class Empleado extends Persona{
     // Atributos Exclusivos de la clase Empleado
     private int idEmpleado;
     private String especialidad;
+    private boolean activo;
 
     // Métodos Constructores
     public Empleado() {
@@ -24,6 +25,14 @@ public class Empleado extends Persona{
         super(nombre, apellido, dni, direccion, telefono, email, activo);
         this.idEmpleado = idEmpleado;
         this.especialidad = especialidad;
+        this.activo = activo;
+    }
+
+    // Construncor sensillo para no usar direccion, telefono ni mail
+    public Empleado(int idEmpleado, String nombre, String apellido, int dni, boolean activo) {
+        super(nombre, apellido, dni, null, 0, null, activo);
+        this.idEmpleado = idEmpleado;
+        this.activo = activo;
     }
 
     public static List<Empleado> ListarEmpleados() {
@@ -86,8 +95,13 @@ public class Empleado extends Persona{
         this.especialidad = especialidad;
     }
 
+    public boolean isActivo() { return activo; }
+
+    public void setActivo(boolean activo) { this.activo = activo; }
+
     @Override
     public String toString() {
         return getNombre() + " "+ getApellido(); // Esto es lo que se mostrará en el ComboBox
     }
+
 }

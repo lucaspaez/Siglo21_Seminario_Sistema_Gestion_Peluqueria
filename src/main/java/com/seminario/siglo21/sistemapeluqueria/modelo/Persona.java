@@ -24,6 +24,9 @@ public class Persona {
         this.email = email;
         this.activo = activo;
     }
+    //Constructor sensillo para usar con Empleado sensillo
+    public Persona(String nombre, String apellido, int dni, boolean activo) {
+    }
 
     // Métodos Getters y Setters
     public String getNombre() {

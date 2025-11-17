@@ -92,8 +92,13 @@ public class MenuPrincipalController implements Initializable {
                 "Sistema de Gestión - Gestionar Servicios");
 
     }
-
-    public void gestionarColaboradores(ActionEvent actionEvent) {
+    @FXML
+    public void gestionarColaboradores(ActionEvent actionEvent) throws IOException {
+        VistaUtil.cambiarVista(
+                App.getPrimaryStage(),
+                "/com/seminario/siglo21/sistemapeluqueria/GestionarEmpleados.fxml", // Ruta a la nueva vista
+                "Gestión de Empleados"
+        );
     }
 
     @FXML

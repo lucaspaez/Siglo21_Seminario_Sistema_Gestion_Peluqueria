@@ -41,8 +41,8 @@
                 <Button fx:id="btnAgregar" onAction="#agregarProveedor" styleClass="btn-primary" text="Agregar" />
                 <Button fx:id="btnEditar" onAction="#editarProveedor" styleClass="btn-secondary" text="Editar" />
                 <Button fx:id="btnEliminar" onAction="#eliminarProveedor" styleClass="btn-secondary" text="Eliminar" />
-                <Button fx:id="btnRefrescar" onAction="#refrescarTabla" styleClass="btn-ghost" text="Refrescar" />
-                <Button fx:id="btnVolver" layoutX="252.0" layoutY="11.0" onAction="#volverAtras" styleClass="btn-ghost" text="&lt;&lt;" />
+                <Button fx:id="btnRefrescar" onAction="#refrescarTabla" styleClass="btn-secondary" text="Refrescar" />
+                <Button fx:id="btnVolver" layoutX="252.0" layoutY="11.0" onAction="#volverAtras" styleClass="btn-secondary" text="&lt;&lt;" />
             </HBox>
             <padding>
                 <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
